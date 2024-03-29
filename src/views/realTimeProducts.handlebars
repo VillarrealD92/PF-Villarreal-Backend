@@ -1,0 +1,60 @@
+<main>
+    <div class="d-flex">
+        <form id="form" class="mt-4 ms-4 w-50">
+            <h2 class="text-center">Create Product</h2>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+                <input id="title" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Category</span>
+                <input id="category" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Description</span>
+                <input id="description" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Price</span>
+                <input id="price" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Code</span>
+                <input id="code" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Stock</span>
+                <input id="stock" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+
+        <form id="deleteProduct" class="mt-4 ms-4 w-50">
+            <h2 class="text-center">Delete Product by ID</h2>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Product ID </span>
+                <input id="productId" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <button type="submit" class="btn btn-primary">Delete</button>
+        </form>
+    </div>
+
+    <table class="table table-hover mt-4">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>DESCRIPTION</th>
+                <th>CODE</th>
+                <th>PRICE</th>
+                <th>STOCK</th>
+                <th>CATEGORY</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody" class="tableBody">
+
+        </tbody>
+    </table>
+
+</main>
+<script src="/static/js/socket.js"></script>

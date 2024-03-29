@@ -1,0 +1,16 @@
+error: Error: ReferenceError: productsToBuy is not defined
+error: Error: CastError: Cast to ObjectId failed for value "villarreal.d96@gmail.com" (type string) at path "_id" for model "users"
+error: Error: ReferenceError: ticketService is not defined
+error: Error: TypeError: ticketService.getTicketData is not a function
+error: Error: TypeError: this.dao.getTickets is not a function
+error: Error: TypeError: ticketService.getTicketData is not a function
+error: Error: TypeError: ticketService.getTicketData is not a function
+error: Error: TypeError: ticketService.getTicketsByUserId is not a function
+error: Error: ReferenceError: userService is not defined
+error: Error: TypeError: ticketService.getTicketsByPurchaser is not a function
+error: Error: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+error: Error: ReferenceError: mercadopago is not defined
+error: Error: ReferenceError: mercadopago is not defined
+error: error
+fatal: fatal
+error: Error: TypeError: Cannot read properties of undefined (reading 'user')

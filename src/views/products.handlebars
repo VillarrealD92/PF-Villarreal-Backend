@@ -1,0 +1,84 @@
+<section>
+    <div class="message-container">
+        
+        <div class="mt-4">
+            <div>
+                <div class="input-group mb-2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">Search</button>
+                    <input id="currentQuery" class="d-none" value={{query}}>
+                    <input id="query" type="text" class="form-control"
+                        placeholder=" Search products by name or category" aria-label="Example text with button addon"
+                        aria-describedby="button-addon1">
+                </div>
+                <div class="d-flex justify-content-around my-4">
+
+                    <div class="mt-2 d-flex align-items-center">
+                        <span class="me-2">Go to Page: </span>
+                        <input id="currentPage" class="d-none" value={{page}}>
+                        <input id="toPage" type="text" size="5">
+                    </div>
+
+                    <div class="mt-2 d-flex align-items-center">
+                        <span class="me-2">Limit: </span>
+                        <input id="currentLimit" class="d-none" value={{limit}}>
+                        <input id="limit" type="text" size="2">
+                    </div>
+
+                    <div class="mt-2 d-flex align-items-center">
+                        <span class="me-2">Order: </span>
+                        <select id="sort" class="h-100">
+                            <option></option>
+                            <option>Asc</option>
+                            <option>Desc</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+</section>
+
+
+
+<main class="d-flex justify-content-center productsView container mb-5">
+
+
+    <div class="row mt-5">
+        {{#each payload}}
+        <div class="productsCards col-12 col-md-6 col-lg-4 py-3 d-flex flex-column">
+            <h5> {{this.title}} </h5>
+            <img src={{this.thumbnail}} alt={{this.title}} class="product-thumbnail">
+            <ul>
+                <li> Category: {{this.category}} </li>
+                <li> Description: {{this.description}} </li>
+                <li> ${{this.price}} </li>
+                <li> Stock: {{this.stock}} </li>
+            </ul>
+            <input name="productId" class="productId d-none" value={{this._id}}>
+            <input name="stock" class="stock d-none" value={{this.stock}}>
+            <button class="addToCartBtn mx-auto mt-auto w-50 cartBtn btn btn-primary"> Add to Cart <i
+                    class="bi bi-cart-plus"></i></button>
+        </div>
+        {{else}}
+        <p class="text-center">No Products to show</p>
+        {{/each}}
+    </div>
+    
+</main>
+
+<div class="mt-2 d-flex justify-content-center align-items-center text-center">
+    <input id="prevPageValue" class="d-none" value={{prevPage}}>
+    <button id="prevPageBtn" {{#unless prevPage}}disabled{{/unless}} class="btn btn-outline-primary mx-1">
+        <i class="bi bi-arrow-left"></i>
+    </button>
+
+    <span class="mx-1">{{page}}/{{totalPages}}</span>
+
+    <input id="nextPageValue" class="d-none" value={{nextPage}}>
+    <button id="nextPageBtn" {{#unless nextPage}}disabled{{/unless}} class="btn btn-outline-primary mx-1">
+        <i class="bi bi-arrow-right"></i>
+    </button>
+</div>
+
+<script src="/static/js/products.js"></script>

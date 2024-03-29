@@ -1,0 +1,43 @@
+<main class="text-center profile-container mt-5">
+    {{!-- <div class="logo-custom text-center mb-4">
+        <a href="/products"><img src="https://res.cloudinary.com/dhht1zszr/image/upload/v1711129174/logo_rduaco.svg"
+                alt="Logo" class="login-logo"></a>
+        <h3>MundoCan</h3>
+    </div> --}}
+    <div class="profile-container mt-5">
+        <h1 class="profile-title text-center">¡Bienvenido, {{user.first_name}} {{user.last_name}}!</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <div class="profile-info text-center">
+                    <div class="profile-avatar">
+                        <img src="https://via.placeholder.com/150" alt="Profile Picture">
+                    </div>
+                    <p><strong>Email:</strong> {{user.email}}</p>
+                </div>
+                <div class="profile-info">
+                    <p><em>Rol: {{user.role}} </em></p>
+                </div>
+                <div class="ticket-info">
+                    {{#if tickets.length}}
+                    <h2>Tickets de Compra</h2>
+                    <ul>
+                        {{#each tickets}}
+                        <li>
+                            <strong>Monto:</strong> {{amount}}<br>
+                            <strong>Código:</strong> {{code}}<br>
+                            <strong>Fecha de Compra:</strong> {{purchase_datetime}}
+                        </li>
+                        {{/each}}
+                    </ul>
+                    {{else}}
+                    <p>No se encontraron tickets de compra.</p>
+                    {{/if}}
+                </div>
+                <div class="text-center">
+                    <a href="api/session/logout" class="profile-logout">Cerrar sesión <i class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

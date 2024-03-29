@@ -1,0 +1,34 @@
+<main class="container mt-5">
+        <div class="row justify-content-center">
+            <h1 class="text-center mb-4"> Register <i class="fas fa-key"></i></h1>
+            <div class="col-md-6">
+                <form action="/api/session/register" method="post" class="password-form-container p-4 animate__animated animate__fadeIn">
+                    <div class="form-group my-3">
+                        <label for="inputName">Name</label>
+                        <input name="first_name" type="text" class="form-control" id="inputName" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group my-3">
+                        <label for="inputLastName">Last Name</label>
+                        <input name="last_name" type="text" class="form-control" id="inputLastName" placeholder="Enter your last name" required>
+                    </div>
+                    <div class="form-group my-3">
+                        <label for="inputEmail">Email address</label>
+                        <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group my-3">
+                        <label for="inputAge">Age</label>
+                        <input name="age" type="number" class="form-control" id="inputAge" placeholder="Enter your age">
+                    </div>
+                    <div class="form-group my-3">
+                        <label for="inputPassword">Password</label>
+                        <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Choose a password" required>
+                    </div>
+                    <div class="text-center"> <!-- Centra el botón -->
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                    <br>
+                    <p class="mt-5 text-center">Already have an account? <a href="/">Login</a></p>
+                </form>
+            </div>
+        </div>
+    </main>

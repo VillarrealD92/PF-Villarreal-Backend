@@ -1,0 +1,48 @@
+<main class="d-flex justify-content-center">
+    {{#if cart}}
+    <input name="cartId" class="d-none cartId" value={{cart._id}}>
+    {{/if}}
+    {{#if cart.products}}
+    <div class="mt-4 mb-5 cartProductsContainer">
+        {{#each cart.products}}
+        <div class="cartProducts d-flex justify-content-between">
+            <div class="me-4">
+                <h5>{{this.product.title}}</h5>
+                <p>Quantity: {{this.quantity}}</p>
+            </div>
+            <div>
+                <img src={{this.product.thumbnail}} alt={{this.product.title}} class="product-thumbnail">
+                <p>Price per Unit: ${{this.product.price}}</p>
+                <input name="productQuantity" class="d-none productQuantity" value={{this.quantity}}>
+                <input name="productPrice" class="d-none productPrice" value={{this.product.price}}>
+                <p class="totalProductAmount"></p>
+            </div>
+            <i class="bi bi-x-lg delProdIcon"></i>
+            <input name="cartProductId" type="text" class="d-none cartProductId" value={{this.product._id}}>
+        </div>
+        {{/each}}
+    </div>
+
+    {{else}}
+    <h5 class="mt-4">¡Your cart is empty! Add some products <i class="fas fa-dog"></i></h5>
+    {{/if}}
+
+</main>
+
+<section>
+    <div>
+        <div class="ms-5 mt-5">
+            <h5 class="finalAmount text-center"></h5>
+        </div>
+        <div class="d-flex justify-content-center ms-4">
+            <button class="checkOut me-4"> Buy! </button>
+            
+            <button class="btn btn-danger trashButton ms-4"><input name="cartId" class="d-none" type="text" value={{cart._id}}><i class="bi bi-trash3 trashIcon"></i></button>
+            
+        </div>
+    </div>
+</section>
+
+
+
+<script src="/static/js/cart.js"></script>

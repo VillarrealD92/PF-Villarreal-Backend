@@ -1,0 +1,95 @@
+paths:
+  /api/products:
+    get:
+      summary: "Brings all products from DB and presents them the way the client requires (pagination, limit, etc)"
+      tags:
+       - Products
+      responses:
+        "200":
+          description: "Products were succesfully provided"    
+        "500":
+          description: "Internal server error. Couldnt get products from DB"
+    post:
+      summary: "Allowed users can add products to DB through this endpoint method"
+      tags:
+       - Products
+      responses:
+        "200":
+          description: "It returns a JSON document with the new product information"
+        "500":
+          description: "Internal server error. Couldnt create new product"
+
+  /api/products/:pid:
+    get:
+      summary: "Given an ID number, this endpoint method brings an specific product in case its found and a message if its not found."
+      tags:
+       - Products
+      responses:
+        "200":
+          description: "It returns a JSON document with the product information. Or a message in case the product is not found"
+        "500":
+          description: "Internal server error. Searching product process couldnt be done properly"
+    put:
+      summary: "Given an ID number, this endpoint method is used by allowed users to update an specific product"
+      tags:
+       - Products
+      responses:
+        "200":
+          description: "It returns a JSON document with the updated product information."
+        "500":
+          description: "Internal server error. Product couldnt been updated"
+    delete:
+      summary: "Given an ID number, this endpoint method is used by allowed users to delete an specific product"
+      tags:
+       - Products
+      responses:
+        "200":
+          description: "It returns a message indicating that the product has been deleted and its ID number"
+        "500":
+          description: "Internal server error. Product was not deleted." 
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Mongo DB ID
+        title: 
+          type: string
+          description: Product title
+        category: 
+          type: string
+          description: Product category
+        description: 
+          type: string
+          description: Product description
+        price: 
+          type: number
+          description: Product price
+        thumbnail:
+          type: array
+          description: Array of product images
+        code: 
+          type: string
+          description: Product code
+        stock: 
+          type: number
+          description: Product stock
+        status: 
+          type: boolean
+          description: Product status
+        owner: 
+          type: ObjectId
+          description: Product owner (the user who created it)
+      example:
+        _id: ObjectId("655ab92b014f0e3fe43a3d62")
+        title: Daniel Marquez
+        category: adiestramiento
+        description: Domiciliario
+        price: 8000
+        thumbnail: []
+        code: adiestrador1
+        stock: 10
+        status: false
+
