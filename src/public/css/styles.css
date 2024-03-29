@@ -330,3 +330,43 @@ body{
         transform: scale(1);
     }
 }
+
+.swal-form {
+    margin-bottom: 20px;
+}
+
+.swal-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.swal-form input[type="file"] {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.swal-form .note {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+#chatInput {
+    border: 1px solid #ddd;
+}
+
+#chatbox {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+.theme-switcher {
+    margin-top: 20px;
+}

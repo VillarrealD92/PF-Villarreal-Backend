@@ -42,10 +42,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const { value: formValues } = await Swal.fire({
                 title: 'Subir Documentos',
                 html:
-                    '<label for="document1">Address Proof:</label><input type="file" id="document1" class="swal2-input">' +
-                    '<label for="document2">Bank Statement:</label><input type="file" id="document2" class="swal2-input">' +
-                    '<label for="document3">Identification:</label><input type="file" id="document3" class="swal2-input">'+
-                    '<p>Nota: Los archivos deben nombrarse como se indica.</p>',
+                '<div class="swal-form">' +
+                '<label for="document1">Address Proof:</label><input type="file" id="document1" class="swal2-input">' +
+                '<label for="document2">Bank Statement:</label><input type="file" id="document2" class="swal2-input">' +
+                '<label for="document3">Identification:</label><input type="file" id="document3" class="swal2-input">'+
+                '<p class="note">Nota: Los archivos deben nombrarse como se indica.</p>' +
+                '</div>',
                 focusConfirm: false,
                 preConfirm: () => {
                     return [

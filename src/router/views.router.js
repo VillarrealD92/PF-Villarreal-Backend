@@ -11,7 +11,7 @@ router.get("/profile", passport.authenticate("jwt", { session: false }), profile
 
 router.get("/realtimeproducts", passport.authenticate("jwt", { session: false }), checkAdminPermissions, realTimeProducts)
 
-router.get("/chat", passport.authenticate("jwt", { session: false }), checkUserPermissions, chat)
+router.get("/chat", passport.authenticate("jwt", { session: false }), checkPremiumPermissions, chat)
 
 router.get("/cart/:cid", passport.authenticate("jwt", { session: false }), cartView)
 
