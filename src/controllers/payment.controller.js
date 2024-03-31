@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '../config/config.js';
-import { cartService } from '../repositories/index.repositories.js';
+
 
 const { port, apiPaypal, clientIdPaypal, secretKeyPaypal} = config;
 

@@ -2,13 +2,18 @@ document.querySelector(".login-form").addEventListener("submit", async (event) =
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    
+    console.log("Datos del formulario:", Object.fromEntries(formData));
+
     try {
         const response = await fetch("/api/session/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
+            body: JSON.stringify({
+                email: formData.get("email"),
+                password: formData.get("password")
+            })
         });
 
         if (!response.ok) {

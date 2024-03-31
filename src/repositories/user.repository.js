@@ -3,12 +3,24 @@ export default class UserRepository {
         this.dao = dao;
     }
 
+    getUsers = async () =>{
+        return await this.dao.getAll()
+    }
+
+    getInactiveUsers = async (inactiveMark) => {
+        return await this.dao.getAllByData(inactiveMark)
+    }
+
+    deleteInactives = async (inactiveMark) => {
+        return await this.dao.deleteVarious(inactiveMark)
+    }
+
     createUser = async (newUser) => {
         return await this.dao.create(newUser);
     }
 
-    getUserByEmail = async (username) => {
-        return await this.dao.getByData(username);
+    getUserByEmail = async (email) => {
+        return await this.dao.getByData(email);
     }
 
     getUserById = async (id) => {

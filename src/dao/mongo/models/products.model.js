@@ -13,8 +13,8 @@ const productsSchema = new mongoose.Schema({
     stock: Number,
     status: Boolean,
     owner:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+        type: mongoose.Schema.Types.Mixed,
+        default: "admin",
     }
     },{ timestamps:true }
 )

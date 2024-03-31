@@ -10,13 +10,16 @@ export const login = async(req, res) => {
         if (!req.user) return res.status(401).send("Invalid Credentials")
         req.session.user = req.user
         console.log(req.user);
-        const { token } = req.user
+        const { token, email } = req.user
+        // const changes = {last_connection: new Date()}
+        // await userService.updateUser(email, changes)
         return res.cookie("jwtCookie", token).status(200).redirect("/products")
     } catch (error) {
         req.logger.error("Error: " + error)
         return res.status(500).send("Internal server error. Couldnt login.")
     }
 }
+
 
 export const github = (req,res) => {}
 
@@ -54,6 +57,9 @@ export const logout = (req, res) => {
     try {
         req.session.destroy(err => {
             if(err) return res.send("Logout error")
+
+            res.clearCookie('jwtCookie');
+
             return res.redirect("/")
         })         
     } catch (error) {
@@ -88,7 +94,7 @@ export const mailPassword = async (req, res) =>{
         const mailer = new Mail
         mailer.sendPasswordMail(mail, url)
 
-        return res.send("An email has been sent to your account")
+        return res.json({status: "success", message: "An email has been sent to your account"})
     } catch (error) {
         req.logger.error("Error: " + error)
 		return res.status(500).send("Internal Server Error. Couldnt proceed with password reset process");
@@ -110,7 +116,7 @@ export const resetPassword = async (req, res) => {
         const updatePassword = await userService.updateUser(userMail, changes)
         console.log(updatePassword);
 
-        return res.send("Your password has been updated")
+        return res.json({status: "success", message:"Your password has been updated"})
 
     } catch (error) {
         req.logger.error("Error: " + error)

@@ -94,11 +94,11 @@ socketServer.on("connection", async socket => {
         res.send(error)
     }
     
-    socket.on("newProduct", async data =>{
+    socket.on("newProduct", async (data) =>{
         try {
             console.log(data);
-            const {title, category, description, price, code, stock} = data
-            const newProduct = await productService.createProduct({title, category, description, price, code, stock}) 
+            const {title, category, description, price, code, stock, owner} = data
+            const newProduct = await productService.createProduct({title, category, description, price, code, stock, owner}) 
             console.log({newProduct});
             const products = await productService.getAllProducts()
             socket.emit("products", products)
@@ -110,10 +110,19 @@ socketServer.on("connection", async socket => {
 
     socket.on("deleteProduct", async id => {
         try {
-            console.log(id);
+            console.log(productId);
             await productService.deleteProduct(id)
-            const products = await productService.getAllProducts()
-            socket.emit("products", products)
+            const productToDelete = await productService.getProductById(productId)
+            console.log(productToDelete);
+            const productOwner = productToDelete.owner
+            console.log(productOwner);
+            if (productOwner==userId) {
+                await productService.deleteProduct(productId)
+                const products = await productService.getAllProducts()
+                socket.emit("products", products)    
+            } else{
+                console.log("not allowed");
+            }
         } catch (error) {
             console.log(error);
             res.send(error)

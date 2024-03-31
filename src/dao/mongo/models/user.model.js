@@ -23,7 +23,11 @@ const UserModel = mongoose.model("users", new mongoose.Schema({
             }
         ],
     tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tickets' }],
-    last_connection: Date
+    last_connection:
+        {
+            type: Date,
+            default: Date.now()
+        }
     },{ timestamps:true }
 ))
 

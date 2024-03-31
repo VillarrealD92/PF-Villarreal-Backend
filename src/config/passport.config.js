@@ -14,25 +14,25 @@ const JWTStrategy = passportJWT.Strategy
 
 const initializePassport = () => {
 
-    passport.use("login", new LocalStrategy({
+    passport.use("login", new LocalStrategy ({
         usernameField: "email"
     }, async (username, password, done) => {
 
-        if (username === amdinUserName && password === adminPassword) {
-            const user = {
-                _id: "admin",
-                first_name: "admin",
-                last_name: "admin",
-                email: amdinUserName,
-                age: "",
-                password: adminPassword,
-                role: "admin",
-                cart: ""
-            };
-            const token = generateToken(user)
-            user.token = token
-            return done(null, user)
-        }
+        // if (username === amdinUserName && password === adminPassword) {
+        //     const user = {
+        //         _id:"admin",
+        //         first_name:"admin",
+        //         last_name:"admin",
+        //         email:amdinUserName,
+        //         age:"",
+        //         password:adminPassword,
+        //         role:"admin",
+        //         cart:""
+        //     };
+        //     const token = generateToken(user)
+        //     user.token = token
+        //     return done(null, user)
+        // }
 
         try {
             const user = await userService.getUserByEmail(username)
@@ -41,32 +41,29 @@ const initializePassport = () => {
                 return done(null, false)
             }
 
-            if (!validatePassword(password, user)) {
+            if(!validatePassword(password, user)){
                 console.log("Invalid Credentials");
                 return done(null, false)
             }
-
-            user.last_connection = new Date();
-            await userService.updateUser(user.email, user);
 
             const token = generateToken(user)
             user.token = token
 
             done(null, user)
-
+            
         } catch (error) {
-            console.error("Error: " + error)
+            req.logger.error("Error: " + error) 
             return done("Error: " + error)
         }
     }))
 
     passport.use("jwt", new JWTStrategy({
         jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([req => req?.cookies?.jwtCookie ?? null]),
-        secretOrKey: jwtSign
-    }, (payload, done) => {
-        console.log({ jwtPayload: payload });
+        secretOrKey: config.jwtSign
+      }, (payload, done) => {
+        console.log({jwtPayload: payload});
         done(null, payload)
-    })
+      })
     )
 
     passport.use("github", new GitHubStrategy({
@@ -92,7 +89,7 @@ const initializePassport = () => {
                 last_name: "",
                 email: profile._json.email,
                 password: "",
-                cart: newCart._id
+                // cart: newCart._id
             }
 
             user = await userService.createUser(newUser)
@@ -102,7 +99,7 @@ const initializePassport = () => {
 
             return done(null, user)
         } catch (error) {
-            console.error("Error: " + error)
+            req.console.error("Error: " + error)
             return done("Couldnt login with github")
         }
     }))
@@ -126,7 +123,7 @@ const initializePassport = () => {
 
             const newCart = await cartService.createNewCart()
             const newUser = {
-                first_name: profile._json.name.givenName,
+                first_name: profile._json.name.displayName,
                 last_name: profile._json.name.familyName,
                 email: profile._json.email,
                 password: "",

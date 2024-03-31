@@ -5,8 +5,8 @@ class MongoProductManager {
         this.model = ProductsModel
     }
 
-    create = async ({title, category, description, price, code, stock}) => {
-       return await ProductsModel.create({title, category, description, price, code, stock})
+    create = async ({title, category, description, price, code, stock, owner}) => {
+       return await ProductsModel.create({title, category, description, price, code, stock, owner})
     }
 
     get = async (search, query, page, limit, sortValue) => { 

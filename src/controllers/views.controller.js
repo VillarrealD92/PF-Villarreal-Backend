@@ -12,13 +12,13 @@ export const cartView = async (req, res) => {
         const populatedCart = await cartService.getPopulatedCart(cartId) 
 
         req.logger.info(JSON.stringify(populatedCart))
-        res.render("cart",{
+        return res.render("cart",{
             cart: populatedCart,
             user: req.user.user
         })
     } catch (error) {
         req.logger.error("Error: " + error)
-        res.status(500).send("Internal server error. Something went wrong while getting products from cart")
+        return res.status(500).send("Internal server error. Something went wrong while getting products from cart")
     }
 }
 
@@ -49,58 +49,58 @@ export const productsView = async (req, res)=> {
 
         console.log(result);  
         req.logger.info(JSON.stringify(result))
-        res.render("products", result)
+        return res.render("products", result)
     } catch (error) {
         req.logger.error("Error: " + error)
-        res.status(500).send("Internal server error")
+        return res.status(500).send("Internal server error")
     }
 }
 
 export const realTimeProducts = async (req, res) => {
     try {
-        res.render("realTimeProducts", {
+        return res.render("realTimeProducts", {
             db: await productService.getAllProducts(),
             user: req.user.user
         })     
     } catch (error) {
         req.logger.error("Error: " + error)
-        res.status(500).send("Internal server error")
+        return res.status(500).send("Internal server error")
     }
 }
 
 export const index = (req, res) => {
     try {
-        res.render("index")
+        return res.render("index")
     } catch (error) {
         req.logger.error("Error: " + error)
-        res.status(500).send("Internal server error")
+        return res.status(500).send("Internal server error")
     }
 }
 
 export const chat = (req, res) =>{
     try { 
-        res.render("chat", {user: req.user.user})
+        return res.render("chat", {user: req.user.user})
     } catch (error) {
         req.logger.error("Error: " + error)
-        res.status(500).send("Internal server error")
+        return res.status(500).send("Internal server error")
     }
 }
 
 export const register = (req,res) => {
     try {
-        res.render("register", {})
+        return res.render("register", {})
     } catch (error) {
         req.logger.error("Error: " + error)
-        res.status(500).send("Internal server error")
+        return res.status(500).send("Internal server error")
     }
 }
 
 export const login = (req,res) => {
     try {
-        res.render("login", {})
+        return res.render("login", {})
     } catch (error) {
         req.logger.error("Error: " + error)
-        res.status(500).send("Internal server error")
+        return res.status(500).send("Internal server error")
     }
 }
 
@@ -114,40 +114,37 @@ export const profile = async (req, res) => {
         console.log("Ticket Data:", ticketData);
         
         // Renderizar la plantilla Handlebars con la información del usuario y de los tickets
-        res.render("profile", { user: req.user.user, tickets: ticketData });
+        return res.render("profile", { user: req.user.user, tickets: ticketData });
 
     } catch (error) {
         console.error("Error fetching ticket data:", error);
         req.logger.error("Error: " + error);
-        res.status(500).send("Internal server error");
+        return res.status(500).send("Internal server error");
     }
 }
 
 export const checkOutView = async (req, res) => {
     try {
-        const cartId = req.user.user.cart
 
-        const response = await fetch(`/api/carts/${cartId}/purchase`, { method: "post" })
-        const checkOutData = await response.json()
-        console.log(checkOutData);
-        
-        res.render("checkOut",{
-            user: req.user.user,
-            checkOutData: checkOutData
-        })
-        
+        const { totalAmount, ticket, productsToBuy } = req.query
+
+        return res.render("checkOut", {totalAmount, ticket, productsToBuy})  
+
     } catch (error) {
+
         req.logger.error("Error: " + error)
-        res.status(500).send("Internal server error")
+
+        return res.status(500).send("Internal server error")
+
     }
 }
 
 export const restablishPassword = async (req, res) => {
     try {
-        res.render("restablishPassword",{})
+        return res.render("restablishPassword",{})
     } catch (error) {
         req.logger.error("Error: " + error)
-        res.status(500).send("Internal server error")
+        return res.status(500).send("Internal server error")
     }
 }
 
@@ -166,5 +163,15 @@ export const resetPasswordForm = (req, res) =>{
     } catch (error) {
         req.logger.error("Error: " + error)
         return res.status(500).send("Internal server error")
+    }
+}
+
+export const usersCrud = async (req, res) =>{
+    try {
+        const user = req.user.user
+
+        return res.render("usersCrud",{user})
+    } catch (error) {
+
     }
 }

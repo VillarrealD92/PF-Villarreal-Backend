@@ -46,27 +46,42 @@ if (trashIcon) {
 
 const checkout = document.querySelector(".checkOut");
 if (checkout) {
-    checkout.onclick = () => {
-        fetch(`/api/carts/${cartId}/purchase`, { method: "post" })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Error purchasing products");
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data);
-                showAlert("Purchase successful! Redirecting to profile...", "success");
-                setTimeout(() => {
-                    document.location.href = "/profile";
-                }, 2000);
-            })
-            .catch(error => {
-                console.error("Error: " + error);
-                showAlert("Error purchasing products", "error");
-            });
-    };
+    checkout.onclick = async () => {
+        try {
+            const response = await fetch(`/api/carts/${cartId}/purchase`, { method: "post" });
+            if (!response.ok) {
+                throw new Error("Error purchasing products");
+            }
+            const data = await response.json();
+            console.log(data);
+            const approvalLink = data.links.find(link => link.rel === 'approve');
+            console.log(approvalLink);
+            if (!approvalLink) {
+              throw new Error("No se encontró el enlace de aprobación de PayPal");
+            }
+      
+            showNotification("Purchase successful! Redirecting to PayPal...", approvalLink.href);
+            
+          } catch (error) {
+            console.error("Error: " + error);
+            showAlert("Error purchasing products", "error");
+          }
+        };
 }
+
+function showNotification(message, redirectUrl) {
+    Swal.fire({
+        title: message,
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonText: 'Go to PayPal',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = redirectUrl;
+        }
+    });
+}
+
 
 function showAlert(message, type) {
     Swal.fire({
@@ -76,4 +91,3 @@ function showAlert(message, type) {
         showConfirmButton: false
     });
 }
-

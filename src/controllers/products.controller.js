@@ -25,7 +25,7 @@ export const getProducts = async (req, res)=> {
         result.status = "success"
         delete result.docs
 
-        res.status(200).send(result)
+        res.status(200).json(result)
     } catch (error) {
         req.logger.error("Error: " + error)
         return res.status(500).send("Internal server error. Couldnt get products")
@@ -73,7 +73,7 @@ export const updateProduct = async (req,res) =>{
 
         const productUpdated = await productService.updateProduct(id, updateRequest)
         
-        return res.status(200).send({productUpdated})
+        return res.status(200).json({productUpdated})
 
     } catch (error) {
         req.logger.error("Error: " + error)

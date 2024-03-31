@@ -28,10 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const userRole = document.getElementById("userRole");
 
     // Verificar el rol del usuario y mostrar u ocultar el botón "Hacer Premium"
-    if (userRole.value === "user" && premiumBtn) {
+    if (userRole && userRole.value === "user" && premiumBtn) {
         premiumBtn.style.display = "block"; // Mostrar el botón
     } else {
-        premiumBtn.style.display = "none"; // Ocultar el botón
+        if (premiumBtn) {
+            premiumBtn.style.display = "none"; // Ocultar el botón
+        }
     }
 
     // Agregar evento de clic al botón "Hacer Premium"

@@ -1,4 +1,6 @@
 <main>
+    <input type="hidden" value={{user._id}} id="userId">
+    <input type="hidden" value={{user.role}} id="userRole">
     <div class="d-flex">
         <form id="form" class="mt-4 ms-4 w-50">
             <h2 class="text-center">Create Product</h2>
@@ -35,11 +37,12 @@
                 <span class="input-group-text" id="inputGroup-sizing-default">Product ID </span>
                 <input id="productId" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             </div>
+            <button id="createProductBtn" type="submit" class="btn btn-primary">Create</button>
             <button type="submit" class="btn btn-primary">Delete</button>
         </form>
     </div>
 
-    <table class="table table-hover mt-4">
+    <table class="table table-hover mt-4 ms-2 me-2">
         <thead>
             <tr>
                 <th>ID</th>

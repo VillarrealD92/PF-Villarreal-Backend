@@ -4,7 +4,7 @@ export default class ProductRepository{
         this.dao=dao
     }
 
-    createProduct = async ({title, category, description, price, code, stock}) => { return await this.dao.create({title, category, description, price, code, stock}) }
+    createProduct = async ({title, category, description, price, code, stock, owner}) => { return await this.dao.create({title, category, description, price, code, stock, owner}) }
  
     getProducts = async (search, query, page, limit, sortValue) => { 
         return await this.dao.get(search, query, page, limit, sortValue)

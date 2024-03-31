@@ -4,7 +4,12 @@ class MongoUserManager{
     constructor(){
         this.model = UserModel;
     }
-   
+    
+    getAll = async () => { return await UserModel.find().lean().exec()}
+
+    getAllByData = async (inactiveMark) => { return await UserModel.find({last_connection: {$lt: inactiveMark}}).lean().exec()}
+
+
     create = async (newUser) => {
         return await UserModel.create(newUser);
     }
@@ -66,6 +71,10 @@ class MongoUserManager{
         } catch (error) {
             throw error; // Lanza el error si ocurre alguno
         }
+    }
+
+    deleteVarious = async (inactiveMark) => {
+        return await UserModel.deleteMany({last_connection: {$lt: inactiveMark}})
     }
 }
 
