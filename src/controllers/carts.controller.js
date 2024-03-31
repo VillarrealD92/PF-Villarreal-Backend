@@ -87,7 +87,6 @@ export const checkOutProcess = async (req, res) => {
 
     // Obtener el enlace de aprobación
     const approvalLink = response.data.links.find(link => link.rel === 'approve');
-
     
 
     // Redirigir al usuario al enlace de aprobación
@@ -103,70 +102,23 @@ export const checkOutProcess = async (req, res) => {
 };
 
 export const captureOrder = async (req, res) => {
-  const { token } = req.query;
+    const { token } = req.query;
 
-  try {
-    const response = await axios.post(`${apiPaypal}/v2/checkout/orders/${token}/capture`, {}, {
-      auth: {
-        username: clientIdPaypal,
-        password: secretKeyPaypal
-      }
-    });
+    try {
+        const response = await axios.post(`${apiPaypal}/v2/checkout/orders/${token}/capture`, {}, {
+            auth: {
+                username: clientIdPaypal,
+                password: secretKeyPaypal
+            }
+        });
 
-    console.log(response.data);
+        console.log(response.data);
 
-    // Crear el ticket solo si la captura de la orden fue exitosa
-    const userEmail = req.user.user.email;
-    const cartId = req.user.user.cart;
-    const cart = await cartService.getPopulatedCart(cartId);
-
-    let totalAmount = 0;
-    let productsToBuy = [];
-    let otherProducts = [];
-    for (const product of cart.products) {
-      const productQuantity = product.quantity;
-      const productId = product.product;
-
-      const productInDB = await productService.getProductById(productId);
-
-      const productPrice = productInDB.price;
-
-      totalAmount += productQuantity * productPrice;
-      productsToBuy.push({
-        title: productInDB.title, quantity: productQuantity, price: productInDB.price,
-        thumbnail: productInDB.thumbnail, code: productInDB.code, description: productInDB.description, category: productInDB.category
-      });
+        return res.send('payed');
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Error capturing order');
     }
-
-    let ticket;
-    if (totalAmount > 0) {
-      ticket = await ticketService.createTicket(totalAmount, userEmail);
-      console.log("New Ticket:", ticket);
-
-      // Asociar el ID del nuevo ticket a la lista de tickets del usuario
-      const user = await userService.getUserById(req.user.user._id);
-      user.tickets.push(ticket._id);
-      await user.save();
-      console.log("Updated User:", user);
-    } else {
-      ticket = "No operation, no ticket";
-    }
-
-    const cartUpdated = await cartService.updateCart(cartId, otherProducts);
-
-    const result = [{ productsToBuy }, { otherProducts }, { ticket }];
-
-    if (ticket) {
-      const mailer = new Mail();
-      const ticketCode = ticket.code;
-      await mailer.sendTicketMail(userEmail, ticketCode, productsToBuy);
-    }
-
-    return res.status(200).json({ status: "success", result });
-  } catch (error) {
-    req.logger.error("Error: " + error)
-    return res.status(500).json({ status: "failed", message: "Internal server error. CheckOutProcess has failed." })
-  }
 };
 
 export const addProductToCart = async (req, res) => {

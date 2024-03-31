@@ -10,9 +10,9 @@ export const login = async(req, res) => {
         if (!req.user) return res.status(401).send("Invalid Credentials")
         req.session.user = req.user
         console.log(req.user);
-        const { token, email } = req.user
-        // const changes = {last_connection: new Date()}
-        // await userService.updateUser(email, changes)
+        const { token, _id } = req.user
+        const changes = {last_connection: new Date()}
+        await userService.updateUser(_id, changes)
         return res.cookie("jwtCookie", token).status(200).redirect("/products")
     } catch (error) {
         req.logger.error("Error: " + error)

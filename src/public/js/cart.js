@@ -53,7 +53,7 @@ if (checkout) {
                 throw new Error("Error purchasing products");
             }
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             const approvalLink = data.links.find(link => link.rel === 'approve');
             console.log(approvalLink);
             if (!approvalLink) {

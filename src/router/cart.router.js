@@ -19,7 +19,7 @@ router.put("/:cid", insertProductsToCart)
 
 router.post("/:cid/purchase", passport.authenticate("jwt", { session: false }), checkOutProcess)
 
-router.post('/capture-order', passport.authenticate("jwt", { session: false }), captureOrder);
+router.get('/:cid/capture-order', passport.authenticate("jwt", { session: false }), captureOrder);
 
 
 export default router
