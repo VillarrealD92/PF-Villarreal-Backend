@@ -113,7 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Función para obtener y mostrar usuarios con documentos
     const showUsersWithDocuments = async () => {
         try {
             const response = await fetch(`/api/users/usersWithDocuments`, { method: "GET" });
@@ -142,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // Botón para mostrar usuarios con documentos
     const premiumRequestsButton = document.createElement("button");
     premiumRequestsButton.textContent = "Solicitudes Premium";
     premiumRequestsButton.classList.add("btn", "btn-primary", "premium-requests-btn");

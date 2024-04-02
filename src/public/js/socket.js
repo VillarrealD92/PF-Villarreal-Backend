@@ -63,7 +63,6 @@ form.addEventListener("submit", (e) => {
 
     console.log("product has been sent");
 
-    // Clear input fields after successful submission
     document.querySelector("#title").value = "";
     document.querySelector("#category").value = "";
     document.querySelector("#description").value = "";
@@ -77,39 +76,36 @@ deleteForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     if (userRole !== 'admin') {
-        // Mostrar un mensaje de error si el usuario no es un administrador
         Swal.fire({
             icon: "error",
             text: "Solo los administradores pueden eliminar productos",
             showConfirmButton: false,
             timer: 3000,
         });
-        return; // Detener la ejecución de la función
+        return;
     }
 
     const productId = document.querySelector("#productId").value;
 
-    // Verificar si el campo productId está vacío
     if (!productId.trim()) {
-        // Mostrar un mensaje de error
         Swal.fire({
             icon: "error",
             text: "El campo no puede estar vacío",
             showConfirmButton: false,
             timer: 3000,
         });
-        return; // Detener la ejecución de la función
+        return; 
     }
 
     try {
-        // Realiza la solicitud DELETE a la API
+        
         const response = await fetch(`/api/products/${productId}`, {
             method: "DELETE",
         });
 
         if (response.ok) {
             socket.emit("deleteProduct", productId);
-            // Producto eliminado exitosamente
+            
             Swal.fire({
                 icon: "success",
                 text: "Producto eliminado",
@@ -117,18 +113,15 @@ deleteForm.addEventListener("submit", async (e) => {
                 timer: 3000,
             });
 
-            // Borra el valor del campo productId
+            
             document.querySelector("#productId").value = "";
 
-            // No necesitas recargar la página, ya que has eliminado dinámicamente el producto de la lista
         } else {
-            // Error al eliminar el producto
+            
             console.error("Error al eliminar producto:", response.statusText);
-            // Manejar el error de forma apropiada en la interfaz de usuario
+            
         }
     } catch (error) {
-        // Error de red o del servidor
         console.error("Error:", error);
-        // Manejar el error de red o del servidor en la interfaz de usuario
     }
 });

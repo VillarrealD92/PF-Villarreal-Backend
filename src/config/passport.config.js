@@ -18,22 +18,6 @@ const initializePassport = () => {
         usernameField: "email"
     }, async (username, password, done) => {
 
-        // if (username === amdinUserName && password === adminPassword) {
-        //     const user = {
-        //         _id:"admin",
-        //         first_name:"admin",
-        //         last_name:"admin",
-        //         email:amdinUserName,
-        //         age:"",
-        //         password:adminPassword,
-        //         role:"admin",
-        //         cart:""
-        //     };
-        //     const token = generateToken(user)
-        //     user.token = token
-        //     return done(null, user)
-        // }
-
         try {
             const user = await userService.getUserByEmail(username)
             if (!user) {

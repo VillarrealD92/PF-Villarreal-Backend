@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import config from '../config/config.js'; // Suponemos que el token de acceso y la clave secreta están guardados en config
+import config from '../config/config.js'; 
 
 const {  secretKeyPaypal } = config; 
 

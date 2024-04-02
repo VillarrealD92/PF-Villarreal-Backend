@@ -53,10 +53,8 @@ class MongoUserManager{
 
     getUsersWithDocuments = async () => {
         try {
-            // Encuentra todos los usuarios con el rol "user"
             const users = await this.model.find({ role: "user" }).lean().exec();
-    
-            // Filtra los usuarios que tengan documentos cargados
+
             const usersWithDocuments = users.filter(user => user.documents && user.documents.length > 0);
     
             return usersWithDocuments;
@@ -67,7 +65,7 @@ class MongoUserManager{
 
     updateUserToPremium = async (userId) => {
         try {
-            // Verifica si userId es un ObjectId válido
+           
             if (!mongoose.Types.ObjectId.isValid(userId)) {
                 throw new Error("El ID de usuario no es válido.");
             }
@@ -78,12 +76,12 @@ class MongoUserManager{
                 throw new Error("Usuario no encontrado.");
             }
 
-            user.role = "premium"; // Actualiza el rol del usuario a "premium"
-            await user.save(); // Guarda los cambios en la base de datos
+            user.role = "premium";
+            await user.save();
 
-            return user; // Devuelve el usuario actualizado
+            return user; 
         } catch (error) {
-            throw error; // Lanza el error si ocurre alguno
+            throw error; 
         }
     }
 

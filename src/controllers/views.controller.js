@@ -97,14 +97,12 @@ export const login = (req,res) => {
 
 export const profile = async (req, res) => {
     try {
-        const userEmail = req.user.user.email; // Obtener el correo electrónico del usuario
+        const userEmail = req.user.user.email;
         console.log("User Email:", userEmail);
 
-        // Obtener los tickets asociados al usuario a través del correo electrónico
         const ticketData = await ticketService.getTicketsByPurchaser(userEmail);
         console.log("Ticket Data:", ticketData);
-        
-        // Renderizar la plantilla Handlebars con la información del usuario y de los tickets
+
         return res.render("profile", { user: req.user.user, tickets: ticketData });
 
     } catch (error) {

@@ -1,0 +1,342 @@
+Views:
+  paths:
+    /:
+      get:
+        summary: Obtiene la página de inicio
+        responses:
+          '200':
+            description: Página de inicio obtenida exitosamente
+            content:
+              text/html:
+                schema:
+                  type: string
+      post:
+        summary: Envía datos para la página de inicio
+        responses:
+          '200':
+            description: Datos enviados exitosamente
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: success
+                    payload:
+                      type: object
+                      example: {}
+          '500':
+            description: Error interno del servidor
+    /register:
+      get:
+        summary: Obtiene la página de registro
+        responses:
+          '200':
+            description: Página de registro obtenida exitosamente
+            content:
+              text/html:
+                schema:
+                  type: string
+      post:
+        summary: Envía datos para el registro de usuario
+        responses:
+          '200':
+            description: Datos de registro enviados exitosamente
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: success
+                    payload:
+                      type: object
+                      example: {}
+          '500':
+            description: Error interno del servidor
+    /profile:
+      get:
+        summary: Obtiene la página de perfil del usuario
+        responses:
+          '200':
+            description: Página de perfil obtenida exitosamente
+            content:
+              text/html:
+                schema:
+                  type: string
+      post:
+        summary: Envía datos para actualizar el perfil del usuario
+        responses:
+          '200':
+            description: Datos de perfil actualizados exitosamente
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: success
+                    payload:
+                      type: object
+                      example: {}
+          '500':
+            description: Error interno del servidor
+    /chat:
+      get:
+        summary: Obtiene la página de chat
+        responses:
+          '200':
+            description: Página de chat obtenida exitosamente
+            content:
+              text/html:
+                schema:
+                  type: string
+      post:
+        summary: Envía mensaje en el chat
+        responses:
+          '200':
+            description: Mensaje enviado exitosamente
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: success
+                    payload:
+                      type: object
+                      example: {}
+          '500':
+            description: Error interno del servidor
+    /cart/{cid}:
+      get:
+        summary: Obtiene la página del carrito
+        parameters:
+          - in: path
+            name: cid
+            required: true
+            schema:
+              type: string
+            description: ID del carrito
+        responses:
+          '200':
+            description: Página del carrito obtenida exitosamente
+            content:
+              text/html:
+                schema:
+                  type: string
+      post:
+        summary: Añade producto al carrito
+        parameters:
+          - in: path
+            name: cid
+            required: true
+            schema:
+              type: string
+            description: ID del carrito
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product_id:
+                    type: string
+                    description: ID del producto a añadir
+                  quantity:
+                    type: integer
+                    description: Cantidad del producto
+        responses:
+          '200':
+            description: Producto añadido exitosamente al carrito
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: success
+                    payload:
+                      type: object
+                      example: {}
+          '500':
+            description: Error interno del servidor
+    /products:
+      get:
+        summary: Obtiene la página de productos
+        responses:
+          '200':
+            description: Página de productos obtenida exitosamente
+            content:
+              text/html:
+                schema:
+                  type: string
+      post:
+        summary: Filtra productos
+        responses:
+          '200':
+            description: Productos filtrados obtenidos exitosamente
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: success
+                    payload:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Product'
+          '500':
+            description: Error interno del servidor
+    /realtimeproducts:
+      get:
+        summary: Obtiene la página de productos en tiempo real
+        responses:
+          '200':
+            description: Página de productos en tiempo real obtenida exitosamente
+            content:
+              text/html:
+                schema:
+                  type: string
+      post:
+        summary: Actualiza productos en tiempo real
+        responses:
+          '200':
+            description: Productos actualizados en tiempo real exitosamente
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: success
+                    payload:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Product'
+          '500':
+            description: Error interno del servidor
+    /usersrolecrud:
+      get:
+        summary: Obtiene la página de CRUD de usuarios
+        responses:
+          '200':
+            description: Página de CRUD de usuarios obtenida exitosamente
+            content:
+              text/html:
+                schema:
+                  type: string
+      post:
+        summary: Realiza operaciones CRUD en usuarios
+        responses:
+          '200':
+            description: Operaciones CRUD en usuarios realizadas exitosamente
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: success
+                    payload:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/User'
+          '500':
+            description: Error interno del servidor
+    /restablishPassword:
+      get:
+        summary: Obtiene la página de restablecimiento de contraseña
+        responses:
+          '200':
+            description: Página de restablecimiento de contraseña obtenida exitosamente
+            content:
+              text/html:
+                schema:
+                  type: string
+      post:
+        summary: Envía solicitud de restablecimiento de contraseña
+        responses:
+          '200':
+            description: Solicitud de restablecimiento de contraseña enviada exitosamente
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: success
+                    payload:
+                      type: object
+                      example: {}
+          '500':
+            description: Error interno del servidor
+    /resetPassword/{token}:
+      get:
+        summary: Obtiene la página de restablecimiento de contraseña
+        parameters:
+          - in: path
+            name: token
+            required: true
+            schema:
+              type: string
+            description: Token de restablecimiento de contraseña
+        responses:
+          '200':
+            description: Página de restablecimiento de contraseña obtenida exitosamente
+            content:
+              text/html:
+                schema:
+                  type: string
+      post:
+        summary: Restablece la contraseña del usuario
+        parameters:
+          - in: path
+            name: token
+            required: true
+            schema:
+              type: string
+            description: Token de restablecimiento de contraseña
+        responses:
+          '200':
+            description: Contraseña restablecida exitosamente
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: success
+                    payload:
+                      type: object
+                      example: {}
+          '500':
+            description: Error interno del servidor
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        category:
+          type: string
+        image_url:
+          type: string

@@ -49,17 +49,14 @@ export const updateUserToPremium = async (req, res) => {
         const userId = req.params.uid;
         const user = await userService.getUserById(userId);
 
-        // Verificar si el usuario existe
         if (!user) {
             return res.status(404).send("Usuario no encontrado.");
         }
-
-        // Verificar si el usuario ya es premium
+        
         if (user.role === "premium") {
             return res.status(400).send("El usuario ya es premium.");
         }
 
-        // Actualizar el rol del usuario a premium
         user.role = "premium";
         await userService.updateUser(userId, { role: "premium" });
 
@@ -78,7 +75,7 @@ export const uploadUserDocuments = async (req, res) => {
         const email = await userService.getUserById(userId).then((user) => user.email);
         
         console.log(email);
-        // Verificar si req.files está definido y no es null
+       
         if (!documents) {
             return res.status(400).send("No se adjuntaron archivos.");
         }
@@ -87,7 +84,7 @@ export const uploadUserDocuments = async (req, res) => {
         console.log("Archivos adjuntos:", documents);
         console.log("Email:", email);
 
-        // Resto del código para procesar los documentos...
+        
         const user = await userService.uploadUserDocuments(userId, documents);
 
         const mailer = new Mail

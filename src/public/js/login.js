@@ -19,8 +19,7 @@ document.querySelector(".login-form").addEventListener("submit", async (event) =
         if (!response.ok) {
             throw new Error("Error logging in");
         }
-
-        // Si el inicio de sesión es exitoso, redireccionamos al perfil del usuario
+        
         window.location.href = "/products";
     } catch (error) {
         console.error("Error logging in: ", error);

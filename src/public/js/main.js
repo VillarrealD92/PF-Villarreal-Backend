@@ -33,19 +33,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const userRole = document.getElementById("userRole");
     const userEmail = document.getElementById("userRole");
 
-    // Verificar el rol del usuario y mostrar u ocultar el botón "Hacer Premium"
     if (userRole && userRole.value === "user" && premiumBtn) {
-        premiumBtn.style.display = "block"; // Mostrar el botón
+        premiumBtn.style.display = "block"; 
     } else {
         if (premiumBtn) {
-            premiumBtn.style.display = "none"; // Ocultar el botón
+            premiumBtn.style.display = "none"; 
         }
     }
 
-    // Agregar evento de clic al botón "Hacer Premium"
+    
     if (premiumBtn) {
         premiumBtn.onclick = async () => {
-            // Mostrar SweetAlert con el formulario para cargar los documentos
+            
             const email = userEmail.value;
             const userId = userIdInput.value;
             const { value: formValues } = await Swal.fire({
@@ -66,8 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 }
             });
-    
-            // Verificar si se proporcionaron archivos
+            
             if (!formValues || !formValues[0] || !formValues[1] || !formValues[2]) {
                 return Swal.fire({
                     icon: 'error',
@@ -76,14 +74,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
     
-            // Crear objeto FormData y agregar documentos
             const formData = new FormData();
             formData.append('documents', formValues[0]);
             formData.append('documents', formValues[1]);
             formData.append('documents', formValues[2]);
     
             try {
-                // Enviar documentos al servidor
                 const response = await fetch(`/api/users/${userId}/documents`, {
                     method: 'POST',
                     body: formData
@@ -93,17 +89,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     throw new Error('Error al subir documentos.');
                 }
     
-                // Mostrar SweetAlert con mensaje de agradecimiento y notificación
                 await Swal.fire({
                     title: '¡Gracias!',
                     text: 'Sus documentos serán revisados por nuestro equipo. Te notificaremos por email cuando cambie tu estado. ¡Muchas gracias!',
                     icon: 'success'
                 });
     
-                // No es necesario hacer nada más, ya que los documentos se están revisando por el equipo
-    
             } catch (error) {
-                // Mostrar SweetAlert de error
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',

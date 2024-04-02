@@ -58,7 +58,7 @@ const swaggerOptions = {
             description: "Here you can find the backend documentation for eCommerce backend project"
         }
     },
-    apis: [`${__dirname}/docs/**/*.yaml`]
+    apis: [`${__dirname}/documentation/**/*.yaml`]
   }
 const specs = swaggerJSDoc(swaggerOptions)
 app.use("/apidocs", SwaggerUIexpress.serve, SwaggerUIexpress.setup(specs))
@@ -110,14 +110,11 @@ socketServer.on("connection", async socket => {
 
     socket.on("deleteProduct", async productId => {
         try {
-            // Lógica para eliminar el producto con el id proporcionado
             await productService.deleteProduct(productId);
-    
-            // Emitir un evento para actualizar la lista de productos en todos los clientes
+
             const products = await productService.getAllProducts();
             socket.emit("products", products);
         } catch (error) {
-            // Manejar el error
             console.error("Error al eliminar producto:", error);
         }
     });
