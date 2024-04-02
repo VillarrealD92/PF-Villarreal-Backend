@@ -76,7 +76,30 @@ const deleteForm = document.getElementById("deleteProduct");
 deleteForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    if (userRole !== 'admin') {
+        // Mostrar un mensaje de error si el usuario no es un administrador
+        Swal.fire({
+            icon: "error",
+            text: "Solo los administradores pueden eliminar productos",
+            showConfirmButton: false,
+            timer: 3000,
+        });
+        return; // Detener la ejecución de la función
+    }
+
     const productId = document.querySelector("#productId").value;
+
+    // Verificar si el campo productId está vacío
+    if (!productId.trim()) {
+        // Mostrar un mensaje de error
+        Swal.fire({
+            icon: "error",
+            text: "El campo no puede estar vacío",
+            showConfirmButton: false,
+            timer: 3000,
+        });
+        return; // Detener la ejecución de la función
+    }
 
     try {
         // Realiza la solicitud DELETE a la API
@@ -93,11 +116,6 @@ deleteForm.addEventListener("submit", async (e) => {
                 showConfirmButton: false,
                 timer: 3000,
             });
-
-            // Actualiza la lista de productos
-            const productList = document.getElementById("productList");
-            const productToRemove = document.getElementById(`product-${productId}`);
-            productList.removeChild(productToRemove);
 
             // Borra el valor del campo productId
             document.querySelector("#productId").value = "";

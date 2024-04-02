@@ -9,7 +9,7 @@ router.get("/", checkRegisteredUser, login)
 router.get("/register", register)
 router.get("/profile", passport.authenticate("jwt", { session: false }), profile)
 
-router.get("/realtimeproducts", passport.authenticate("jwt", { session: false }), checkAdminPermissions, realTimeProducts)
+// router.get("/realtimeproducts", passport.authenticate("jwt", { session: false }), checkAdminPermissions, realTimeProducts)
 
 router.get("/chat", passport.authenticate("jwt", { session: false }), checkAdminPremiumPermissions, chat)
 
@@ -17,7 +17,7 @@ router.get("/cart/:cid", passport.authenticate("jwt", { session: false }), cartV
 
 router.get("/products", passport.authenticate("jwt", { session: false }), productsView)
 
-router.get("/realtimeproducts", passport.authenticate("jwt", { session: false }), checkPremiumPermissions, realTimeProducts)
+router.get("/realtimeproducts", passport.authenticate("jwt", { session: false }), checkAdminPremiumPermissions, realTimeProducts)
 
 router.get("/usersrolecrud", passport.authenticate("jwt", { session: false }), checkAdminPermissions, usersCrud)
 
