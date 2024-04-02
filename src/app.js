@@ -157,4 +157,3 @@ app.get("/mail", async(req,res) =>{
     return res.send("check your email")
 })
 
-console.log("HOLA MUNDO")
