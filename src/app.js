@@ -156,3 +156,5 @@ app.get("/mail", async(req,res) =>{
     mail.send(config.mailUser,"TEST",`<h1>TEST</h1>`)
     return res.send("check your email")
 })
+
+console.log("HOLA MUNDO")
