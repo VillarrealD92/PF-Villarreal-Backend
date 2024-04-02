@@ -53,4 +53,15 @@ export default class UserRepository {
         }
     }
 
+    getUsersWithDocuments = async () => {
+        try {
+            // Encuentra todos los usuarios con documentos cargados y el rol "user"
+            const users = await this.dao.getAll();
+            const usersWithDocuments = users.filter(user => user.role === "user" && user.documents && user.documents.length > 0);
+            return usersWithDocuments;
+        } catch (error) {
+            throw new Error(`Error al obtener usuarios con documentos: ${error.message}`);
+        }
+    }
+
 }

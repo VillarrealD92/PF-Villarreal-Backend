@@ -1,124 +1,60 @@
 import Mail from "../modules/mail.module.js";
 import { cartService, productService, ticketService, userService } from "../repositories/index.repositories.js"
-import axios from "axios";
-import config from '../config/config.js';
-
-
-const { port, apiPaypal, clientIdPaypal, secretKeyPaypal } = config;
 
 
 export const checkOutProcess = async (req, res) => {
   try {
-    const userEmail = req.user.user.email;
-    const cartId = req.user.user.cart;
-    const cart = await cartService.getPopulatedCart(cartId);
+      const userEmail = req.user.user.email;
+      const cartId = req.user.user.cart;
+      const cart = await cartService.getPopulatedCart(cartId);
 
-    if (cart.products.length === 0) {
-      return res.status(400).send("Cannot checkout empty cart");
-    }
+      let totalAmount = 0
+      let productsToBuy = []
+      let otherProducts = []
+      for (const product of cart.products) {
+          const productQuantity = product.quantity;
+          const productId = product.product;
 
-    let totalAmount = 0;
-    let productsToBuy = [];
-    let otherProducts = [];
-    for (const product of cart.products) {
-      const productQuantity = product.quantity;
-      const productId = product.product;
+          const productInDB = await productService.getProductById(productId);
 
-      const productInDB = await productService.getProductById(productId);
+          const productStock = productInDB.stock;
+          const productPrice = productInDB.price;
 
-      const productStock = productInDB.stock;
-      const productPrice = productInDB.price;
+          if (productQuantity <= productStock) {
+              const newProductStock = productStock - productQuantity;
+              const changes = { stock: newProductStock };
+              const updatedProduct = await productService.updateProduct(productId, changes);
+              console.log(updatedProduct);
 
-      if (productQuantity <= productStock) {
-        const newProductStock = productStock - productQuantity;
-        const changes = { stock: newProductStock };
-        await productService.updateProduct(productId, changes);
+              totalAmount += productQuantity * productPrice;
+              productsToBuy.push(product);
+          } else {otherProducts.push(product)}
+      }
 
-        totalAmount += productQuantity * productPrice;
-        productsToBuy.push({
-          title: productInDB.title, quantity: productQuantity, price: productInDB.price,
-          thumbnail: productInDB.thumbnail, code: productInDB.code, description: productInDB.description, category: productInDB.category
-        });
+      let ticket;
+      if (totalAmount > 0) {
+      ticket = await ticketService.createTicket(totalAmount, userEmail);
       } else {
-        otherProducts.push(product);
+      ticket = "No operation, no ticket";
       }
-    }
 
-    if (totalAmount <= 0) {
-      return res.status(400).send("Cannot checkout with total amount of 0");
-    }
+      const cartUpdated = await cartService.updateCart(cartId, otherProducts);
+      console.log(cartUpdated);
 
-    const order = {
-      intent: "CAPTURE",
-      purchase_units: [
-        {
-          amount: {
-            currency_code: "USD",
-            value: totalAmount.toFixed(2)
-          }
-        },
-      ],
-      application_context: {
-        brand_name: "MundoCan",
-        landing_page: "NO_PREFERENCE",
-        user_action: "PAY_NOW",
-        return_url: `http://localhost:${port}/api/carts/capture-order`,
-        cancel_url: `http://localhost:${port}/profile`
+      const result = [{productsToBuy}, {otherProducts}, {ticket}];
+      console.log({result});
+
+      if (ticket != "No operation, no ticket"){
+        const mailer = new Mail
+        const ticketCode = ticket.code
+        mailer.sendTicketMail(userEmail,ticketCode, productsToBuy)
       }
-    }
 
-    const params = new URLSearchParams();
-    params.append('grant_type', 'client_credentials');
-
-    const { data: { access_token } } = await axios.post(`${apiPaypal}/v1/oauth2/token`, params, {
-      auth: {
-        username: clientIdPaypal,
-        password: secretKeyPaypal,
-      }
-    });
-
-    const response = await axios.post(`${apiPaypal}/v2/checkout/orders`, order, {
-      headers: {
-        Authorization: `Bearer ${access_token}`
-      }
-    });
-
-    console.log(response.data);
-
-    // Obtener el enlace de aprobación
-    const approvalLink = response.data.links.find(link => link.rel === 'approve');
-    
-
-    // Redirigir al usuario al enlace de aprobación
-    if (approvalLink) {
-      return res.redirect({ redirectUrl: approvalLink.href });
-    } else {
-      throw new Error('No se encontró el enlace de aprobación en la respuesta de PayPal.');
-    }
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send('Error en el proceso de compra');
+      res.status(200).send(result);
+  } catch (error) { 
+      req.logger.error("Error: " + error)
+      return res.status(500).send("Internal server error. CheckOutProcess has failed.")
   }
-};
-
-export const captureOrder = async (req, res) => {
-    const { token } = req.query;
-
-    try {
-        const response = await axios.post(`${apiPaypal}/v2/checkout/orders/${token}/capture`, {}, {
-            auth: {
-                username: clientIdPaypal,
-                password: secretKeyPaypal
-            }
-        });
-
-        console.log(response.data);
-
-        return res.send('payed');
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send('Error capturing order');
-    }
 };
 
 export const addProductToCart = async (req, res) => {

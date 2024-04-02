@@ -3,6 +3,7 @@
     <input name="cartId" class="d-none cartId" value={{cart._id}}>
     {{/if}}
     {{#if cart.products}}
+    <input name="cartId" class="d-none" type="text" value={{cart._id}}>
     <div class="mt-4 mb-5 cartProductsContainer">
         {{#each cart.products}}
         <div class="cartProducts d-flex justify-content-between">
@@ -31,8 +32,7 @@
             <div class="d-flex justify-content-center ms-4">
                 <button class="checkOut me-4"> Buy! </button>
 
-                <button class="btn btn-danger trashButton ms-4"><input name="cartId" class="d-none" type="text"
-                        value={{cart._id}}><i class="bi bi-trash3 trashIcon"></i></button>
+                <button class="btn btn-danger trashButton ms-4"><i class="bi bi-trash3 trashIcon"></i></button>
 
             </div>
         </div>
@@ -43,7 +43,6 @@
     {{/if}}
 
 </main>
-
 
 
 <script src="/static/js/cart.js"></script>

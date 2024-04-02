@@ -14,3 +14,4 @@ export const chatService = new ChatRepository(new MongoMessagesManager())
 export const productService = new ProductRepository(new MongoProductManager())
 export const ticketService = new TicketRepository(new MongoTicketManager())
 export const userService = new UserRepository(new MongoUserManager())
+

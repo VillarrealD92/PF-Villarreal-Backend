@@ -89,7 +89,7 @@ const initializePassport = () => {
                 last_name: "",
                 email: profile._json.email,
                 password: "",
-                // cart: newCart._id
+                cart: newCart._id
             }
 
             user = await userService.createUser(newUser)

@@ -68,15 +68,6 @@ export const realTimeProducts = async (req, res) => {
     }
 }
 
-export const index = (req, res) => {
-    try {
-        return res.render("index")
-    } catch (error) {
-        req.logger.error("Error: " + error)
-        return res.status(500).send("Internal server error")
-    }
-}
-
 export const chat = (req, res) =>{
     try { 
         return res.render("chat", {user: req.user.user})
@@ -120,22 +111,6 @@ export const profile = async (req, res) => {
         console.error("Error fetching ticket data:", error);
         req.logger.error("Error: " + error);
         return res.status(500).send("Internal server error");
-    }
-}
-
-export const checkOutView = async (req, res) => {
-    try {
-
-        const { totalAmount, ticket, productsToBuy } = req.query
-
-        return res.render("checkOut", {totalAmount, ticket, productsToBuy})  
-
-    } catch (error) {
-
-        req.logger.error("Error: " + error)
-
-        return res.status(500).send("Internal server error")
-
     }
 }
 

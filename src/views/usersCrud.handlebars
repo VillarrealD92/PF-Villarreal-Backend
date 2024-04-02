@@ -1,13 +1,31 @@
 <main>
 
-    <h1 class="text-center">Users Crud</h1>
-
-    <form class="ms-4" id="userForm">
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Find user by email</label>
-            <input type="email" class="form-control col-6 w-25" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+    <section class="user-section">
+        <header class="user-header">
+            <h1 class="user-title">User Management Panel</h1>
+        </header>
+        <div class="user-form-container">
+            <form id="search-form" class="search-form">
+                <div class="form-group d-flex align-items-center">
+                    <label for="user-email" class="form-label">Enter User Email:</label>
+                    <div class="input-group">
+                        <input type="email" class="form-control" id="user-email" name="email"
+                            placeholder="example@example.com">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+            <div id="user-details" class="user-details"></div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </section>
+
+    <section class="user-section">
+        <header class="user-header">
+            <h1 class="user-title">Users with Documents</h1>
+        </header>
+        <div id="users-with-documents" class="user-details"></div>
+    </section>
 
 </main>
+
+<script src="/static/js/Users.js"></script>

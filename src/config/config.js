@@ -26,7 +26,8 @@ export default {
     mailPort: process.env.MAIL_PORT,
     secretKeyPaypal: process.env.SECRETKEYPAYPAL,
     clientIdPaypal: process.env.CLIENTIDPAYPAL,
-    apiPaypal: process.env.APIPAYPAL
+    apiPaypal: process.env.APIPAYPAL,
+    
     
     
    

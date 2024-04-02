@@ -51,6 +51,20 @@ class MongoUserManager{
         }
     }
 
+    getUsersWithDocuments = async () => {
+        try {
+            // Encuentra todos los usuarios con el rol "user"
+            const users = await this.model.find({ role: "user" }).lean().exec();
+    
+            // Filtra los usuarios que tengan documentos cargados
+            const usersWithDocuments = users.filter(user => user.documents && user.documents.length > 0);
+    
+            return usersWithDocuments;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     updateUserToPremium = async (userId) => {
         try {
             // Verifica si userId es un ObjectId válido

@@ -1,6 +1,6 @@
 import express from 'express';
 import { uploader } from '../config/multer.config.js';
-import { deleteInactives, getUserByEmail, getUsers, updateUserToPremium, uploadUserDocuments } from '../controllers/users.controller.js';
+import { changeUserRole, deleteUser, deleteInactives, getUserByEmail, getUsers, updateUserToPremium, uploadUserDocuments, getUsersWithDocuments } from '../controllers/users.controller.js';
 
 const router = express.Router();
 
@@ -10,7 +10,13 @@ router.delete("/", deleteInactives)
 
 router.get("/user", getUserByEmail)
 
+router.put("/user", changeUserRole)
+
+router.delete("/deleteUser/:userId", deleteUser)
+
 router.post('/:uid/premium', updateUserToPremium);
+
+router.get("/usersWithDocuments", getUsersWithDocuments);
 
 router.post('/:uid/documents', uploader.array('documents'), uploadUserDocuments);
 

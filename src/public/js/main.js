@@ -15,9 +15,14 @@ const userRoleElement = document.getElementById("userRole")
 if (userRoleElement) {
     const userRoleValue = userRoleElement.value
     const realTimeBtn = document.getElementById("RTProductsBTN")
+    const usersRoleCrudBtn = document.getElementById("usersRoleCrudBtn")
 
     if (userRoleValue == "admin" || userRoleValue == "premium") {
         realTimeBtn.classList.remove("d-none")
+    }
+
+    if (userRoleValue == "admin"){
+        usersRoleCrudBtn.classList.remove("d-none")
     }
 }
 
@@ -26,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userIdInput = document.getElementById("userId");
     const premiumBtn = document.getElementById("premiumBtn");
     const userRole = document.getElementById("userRole");
+    const userEmail = document.getElementById("userRole");
 
     // Verificar el rol del usuario y mostrar u ocultar el botón "Hacer Premium"
     if (userRole && userRole.value === "user" && premiumBtn) {
@@ -40,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (premiumBtn) {
         premiumBtn.onclick = async () => {
             // Mostrar SweetAlert con el formulario para cargar los documentos
+            const email = userEmail.value;
             const userId = userIdInput.value;
             const { value: formValues } = await Swal.fire({
                 title: 'Subir Documentos',
@@ -59,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 }
             });
-
+    
             // Verificar si se proporcionaron archivos
             if (!formValues || !formValues[0] || !formValues[1] || !formValues[2]) {
                 return Swal.fire({
@@ -68,51 +75,33 @@ document.addEventListener('DOMContentLoaded', function() {
                     text: 'Debes subir los tres documentos.'
                 });
             }
-
+    
             // Crear objeto FormData y agregar documentos
             const formData = new FormData();
             formData.append('documents', formValues[0]);
             formData.append('documents', formValues[1]);
             formData.append('documents', formValues[2]);
-
+    
             try {
                 // Enviar documentos al servidor
                 const response = await fetch(`/api/users/${userId}/documents`, {
                     method: 'POST',
                     body: formData
                 });
-
+    
                 if (!response.ok) {
                     throw new Error('Error al subir documentos.');
                 }
-
-                // Mostrar SweetAlert con el botón para actualizar a premium
+    
+                // Mostrar SweetAlert con mensaje de agradecimiento y notificación
                 await Swal.fire({
-                    title: '¡Documentos subidos!',
-                    text: 'Haz clic en el botón para hacerte premium.',
-                    icon: 'success',
-                    showCancelButton: true,
-                    confirmButtonText: 'Hacer Premium'
-                });
-
-                // Hacer una solicitud para actualizar el usuario a premium
-                const premiumResponse = await fetch(`/api/users/${userId}/premium`, {
-                    method: 'POST'
-                });
-
-                if (!premiumResponse.ok) {
-                    throw new Error('Error al actualizar a premium.');
-                }
-
-                // Mostrar SweetAlert de éxito
-                Swal.fire({
-                    title: '¡Felicidades!',
-                    text: 'Ahora eres un usuario premium.',
+                    title: '¡Gracias!',
+                    text: 'Sus documentos serán revisados por nuestro equipo. Te notificaremos por email cuando cambie tu estado. ¡Muchas gracias!',
                     icon: 'success'
                 });
-
-                // Actualizar la página después de hacer premium
-                location.reload();
+    
+                // No es necesario hacer nada más, ya que los documentos se están revisando por el equipo
+    
             } catch (error) {
                 // Mostrar SweetAlert de error
                 Swal.fire({

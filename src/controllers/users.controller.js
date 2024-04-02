@@ -2,18 +2,18 @@ import { userService } from '../repositories/index.repositories.js';
 import UserDTO from "../DTO/user.dto.js";
 import Mail from "../modules/mail.module.js";
 
-export const getUsers = async (req, res) =>{
+export const getUsers = async (req, res) => {
     try {
         const usersData = await userService.getUsers()
         const usersDTO = usersData.map(user => new UserDTO(user));
 
-        return res.status(200).json({status: "success", payload: usersDTO})
+        return res.status(200).json({ status: "success", payload: usersDTO })
     } catch (error) {
-        return res.status(500).json({status: "fail", message: "Internal server error while getting users."+error})
+        return res.status(500).json({ status: "fail", message: "Internal server error while getting users." + error })
     }
 }
 
-export const deleteInactives = async (req, res) =>{
+export const deleteInactives = async (req, res) => {
     try {
         const inactiveMark = new Date()
         inactiveMark.setHours(inactiveMark.getHours() - 1)
@@ -27,20 +27,20 @@ export const deleteInactives = async (req, res) =>{
             mailer.sendDeletionReport(account.email)
         })
 
-        return res.status(200).json({status: "success", payload: deletingResult})
+        return res.status(200).json({ status: "success", payload: deletingResult })
     } catch (error) {
-        return res.status(500).json({status: "fail", message: "Internal server error while deleting inactives."+error})
+        return res.status(500).json({ status: "fail", message: "Internal server error while deleting inactives." + error })
     }
 }
 
-export const getUserByEmail = async (req, res) =>{
+export const getUserByEmail = async (req, res) => {
     try {
-        const { email } = req.body
+        const { email } = req.query
         const user = await userService.getUserByEmail(email)
         console.log(user);
-        return res.status(200).json({status: "success", payload: user})
+        return res.status(200).json({ status: "success", payload: user })
     } catch (error) {
-        return res.status(500).json({status: "fail", message: "Internal server error while getting user by email."+error})
+        return res.status(500).json({ status: "fail", message: "Internal server error while getting user by email." + error })
     }
 }
 
@@ -75,20 +75,75 @@ export const uploadUserDocuments = async (req, res) => {
     try {
         const userId = req.params.uid;
         const documents = req.files;
-
+        const email = await userService.getUserById(userId).then((user) => user.email);
+        
+        console.log(email);
         // Verificar si req.files está definido y no es null
         if (!documents) {
             return res.status(400).send("No se adjuntaron archivos.");
         }
 
-        console.log("Archivos adjuntos:", documents); // Agregamos un console.log para verificar los archivos adjuntos
+        console.log("User ID:", userId);
+        console.log("Archivos adjuntos:", documents);
+        console.log("Email:", email);
 
         // Resto del código para procesar los documentos...
         const user = await userService.uploadUserDocuments(userId, documents);
+
+        const mailer = new Mail
+        mailer.sendPremiumRequest(email)
 
         return res.status(200).json(user);
     } catch (error) {
         console.error("Error al cargar documentos:", error);
         return res.status(500).send("Error interno del servidor al cargar documentos.");
     }
+
 };
+
+export const getUsersWithDocuments = async (req, res) => {
+    try {
+        const usersWithDocuments = await userService.getUsersWithDocuments();
+        return res.status(200).json({ status: "success", payload: usersWithDocuments });
+    } catch (error) {
+        console.error("Error al obtener usuarios con documentos:", error);
+        return res.status(500).json({ status: "fail", message: "Error interno del servidor al obtener usuarios con documentos." });
+    }
+}
+
+export const changeUserRole = async (req, res) => {
+    try {
+        const { email, role } = req.query
+        console.log(email);
+        console.log(role);
+        const user = await userService.getUserByEmail(email);
+        if (!user) {
+            return res.status(404).json({ status: "error", message: "User not found" });
+        }
+
+        const changes = { role: role }
+
+        const roleUpdated = await userService.updateUser(user._id, changes);
+
+        console.log(roleUpdated);
+
+        const mailer = new Mail
+        mailer.sendRoleChangeConfirmation(email, role)
+
+        return res.status(200).json({ status: "success", payload: roleUpdated })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deleteUser = async (req, res) => {
+    try {
+        const { userId } = req.params
+        console.log(userId);
+        const deletedUser = await userService.deleteUser(userId)
+        console.log(deletedUser);
+        return res.status(200).json({ status: "success", payload: deletedUser })
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -10,7 +10,7 @@ import productsRouter from "./router/products.router.js"
 import sessionRouter from "./router/sessions.router.js"
 import usersRouter from './router/users.router.js';
 import loggerRouter from "./router/logger.router.js"
-import paymentRoutes from "./router/payment.router.js"
+import paymentRoutes from "./router/payment.router.js";
 import mongoose from "mongoose"
 import passport from "passport"
 import initializePassport from "./config/passport.config.js"
@@ -108,26 +108,19 @@ socketServer.on("connection", async socket => {
         }
     })
 
-    socket.on("deleteProduct", async id => {
+    socket.on("deleteProduct", async productId => {
         try {
-            console.log(productId);
-            await productService.deleteProduct(id)
-            const productToDelete = await productService.getProductById(productId)
-            console.log(productToDelete);
-            const productOwner = productToDelete.owner
-            console.log(productOwner);
-            if (productOwner==userId) {
-                await productService.deleteProduct(productId)
-                const products = await productService.getAllProducts()
-                socket.emit("products", products)    
-            } else{
-                console.log("not allowed");
-            }
+            // Lógica para eliminar el producto con el id proporcionado
+            await productService.deleteProduct(productId);
+    
+            // Emitir un evento para actualizar la lista de productos en todos los clientes
+            const products = await productService.getAllProducts();
+            socket.emit("products", products);
         } catch (error) {
-            console.log(error);
-            res.send(error)
+            // Manejar el error
+            console.error("Error al eliminar producto:", error);
         }
-    })
+    });
     
     socket.on("message", async ({user, message}) => {
         try {
@@ -154,7 +147,8 @@ app.use("/api/carts", cartRouter)
 app.use("/api/session", sessionRouter)
 app.use('/api/users', usersRouter);
 app.use("/loggerTest", loggerRouter)
-app.use("/paypal", paymentRoutes)
+app.use("api//payments", paymentRoutes);
+
 
 
 const mail = new Mail

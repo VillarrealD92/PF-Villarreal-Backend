@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addProductToCart, changeProductQuantityInCart, createCart, deleteProductFromCart, emptyCart, insertProductsToCart, checkOutProcess, captureOrder} from "../controllers/carts.controller.js";
+import { addProductToCart, changeProductQuantityInCart, createCart, deleteProductFromCart, emptyCart, insertProductsToCart, checkOutProcess} from "../controllers/carts.controller.js";
 import { checkUserPermissions, checkUserPremiumPermissions } from "../middlewares/middlewares.js";
 import passport from "passport";
 
@@ -19,7 +19,7 @@ router.put("/:cid", insertProductsToCart)
 
 router.post("/:cid/purchase", passport.authenticate("jwt", { session: false }), checkOutProcess)
 
-router.get('/:cid/capture-order', passport.authenticate("jwt", { session: false }), captureOrder);
+
 
 
 export default router

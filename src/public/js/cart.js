@@ -44,42 +44,79 @@ if (trashIcon) {
     };
 }
 
-const checkout = document.querySelector(".checkOut");
-if (checkout) {
-    checkout.onclick = async () => {
-        try {
-            const response = await fetch(`/api/carts/${cartId}/purchase`, { method: "post" });
-            if (!response.ok) {
-                throw new Error("Error purchasing products");
-            }
-            const data = await response.json();
-            // console.log(data);
-            const approvalLink = data.links.find(link => link.rel === 'approve');
-            console.log(approvalLink);
-            if (!approvalLink) {
-              throw new Error("No se encontró el enlace de aprobación de PayPal");
-            }
-      
-            showNotification("Purchase successful! Redirecting to PayPal...", approvalLink.href);
-            
-          } catch (error) {
-            console.error("Error: " + error);
-            showAlert("Error purchasing products", "error");
-          }
-        };
+let totalAmount = 0
+document.querySelectorAll(".cartProducts").forEach(cartProduct => {
+    const price = parseFloat(cartProduct.querySelector(".productPrice").value)
+    const quantity = parseInt(cartProduct.querySelector(".productQuantity").value)
+
+    const partialTotal = price * quantity;
+    totalAmount += partialTotal
+
+    cartProduct.querySelector(".totalProductAmount").innerHTML = `Total: $${partialTotal.toFixed(2)}`;
+});
+
+const finalAmount = document.querySelector(".finalAmount")
+if (finalAmount) {
+    finalAmount.innerHTML = `Total: $${totalAmount.toFixed(2)}`
 }
 
-function showNotification(message, redirectUrl) {
-    Swal.fire({
-        title: message,
-        icon: 'success',
-        showCancelButton: false,
-        confirmButtonText: 'Go to PayPal',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = redirectUrl;
-        }
-    });
+
+const checkout = document.querySelector(".checkOut")
+if (checkout) {
+    checkout.onclick = () => {
+
+        fetch(`/api/carts/${cartId}/purchase`, { method: "post" })
+            .then(response => { return response.json() })
+            .then(data => {
+                console.log(data);
+
+                const cartSection = document.getElementById("cart")
+                cartSection.classList.add("d-none")
+
+                const ticketSection = document.getElementById("ticket")
+                ticketSection.classList.remove("d-none")
+
+                const products = data.result[0].productsToBuy
+
+                const totalAmount = data.result[2].ticket.amount
+
+                const productsTicket = document.getElementById("productsTicket");
+
+                if (products.length > 0) {
+                    const fragment = document.createDocumentFragment();
+                    products.forEach(product => {
+                        const productDiv = document.createElement("div");
+                        productDiv.classList.add("product", "border", "border-black", "rounded", "mb-2", "p-2");
+
+                        const productName = document.createElement("h5");
+                        productName.textContent = `${product.product.title}`;
+
+                        const productQuantity = document.createElement("p");
+                        productQuantity.textContent = `Quantity: ${product.quantity}`;
+
+                        const productPrice = document.createElement("p");
+                        productPrice.textContent = `Price: $${product.product.price}`;
+
+                        productDiv.appendChild(productName);
+                        productDiv.appendChild(productQuantity);
+                        productDiv.appendChild(productPrice);
+                        fragment.appendChild(productDiv);
+                    });
+
+                    const totalAmountElement = document.createElement("h5")
+                    totalAmountElement.textContent = `Total Amount: $${totalAmount}`
+
+                    productsTicket.appendChild(totalAmountElement)
+                    productsTicket.appendChild(fragment);
+                } else {
+                    productsTicket.innerHTML = `<p>No products in the ticket</p>`;
+                }
+
+            })
+            .catch(error => {
+                console.log("Error: " + error);
+            });
+    }
 }
 
 
@@ -91,3 +128,5 @@ function showAlert(message, type) {
         showConfirmButton: false
     });
 }
+
+

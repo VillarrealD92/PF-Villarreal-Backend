@@ -31,6 +31,7 @@
     <input id="mainCartId" type="hidden" class="d-none mainCartId" value={{user.cart}} autocomplete="none">
     <input id="userRole" type="hidden" class="d-none" value={{user.role}} autocomplete="none">
     <input id="userId" type="hidden" class="d-none" value={{user._id}}>
+    <input id="userEmail" type="hidden" class="d-none" value={{user.email}}>
     <header>
         <nav class="navbar">
             <div class="navbar-logo-container ms-4">
@@ -51,15 +52,17 @@
                         class="text-decoration-none text-light" href="/realtimeproducts">Real Time</a> </button>
                 <button class="btn btn-primary mt-2"> <a class="text-decoration-none text-light" href="/chat">Chat</a>
                 </button>
+                <button id="usersRoleCrudBtn" class="btn btn-primary mt-2 d-none"> <a
+                        class="text-decoration-none text-light" href="/usersrolecrud">Users Role Crud</a> </button>
 
                 <i id="cartIcon" class="bi bi-cart2 cartIcon me-4"></i>
 
             </div>
 
             <div class="me-4">
-                
+
                 <button id="premiumBtn" class="btn btn-primary mt-2">Hacer Premium</button>
-                
+
                 <button class="btn btn-primary mt-2"><a class="text-decoration-none text-light" href="/profile">My
                         Profile</a></button>
 
@@ -81,11 +84,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.min.js"
-        integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/static/js/main.js"></script>
 </body>
