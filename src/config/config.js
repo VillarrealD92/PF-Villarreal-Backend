@@ -24,6 +24,7 @@ export default {
     MAIL_USER: process.env.MAIL_USER,
     MAIL_PASS: process.env.MAIL_PASS,
     mailPort: process.env.MAIL_PORT,
+    mercadoToken: process.env.MERCADO_TOKEN,
     mercadoKey: process.env.MERCADO_KEY,
     
     

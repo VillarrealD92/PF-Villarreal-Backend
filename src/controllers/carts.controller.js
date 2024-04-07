@@ -8,9 +8,13 @@ export const checkOutProcess = async (req, res) => {
       const cartId = req.user.user.cart;
       const cart = await cartService.getPopulatedCart(cartId);
 
-      let totalAmount = 0
-      let productsToBuy = []
-      let otherProducts = []
+      if (cart.products.length === 0) {
+        return res.status(400).send("Cannot checkout empty cart");
+      }
+
+      let totalAmount = 0;
+      let productsToBuy = [];
+      let otherProducts = [];
       for (const product of cart.products) {
           const productQuantity = product.quantity;
           const productId = product.product;
@@ -23,37 +27,44 @@ export const checkOutProcess = async (req, res) => {
           if (productQuantity <= productStock) {
               const newProductStock = productStock - productQuantity;
               const changes = { stock: newProductStock };
-              const updatedProduct = await productService.updateProduct(productId, changes);
-              console.log(updatedProduct);
+              await productService.updateProduct(productId, changes);
 
               totalAmount += productQuantity * productPrice;
-              productsToBuy.push(product);
-          } else {otherProducts.push(product)}
+              productsToBuy.push({ title: productInDB.title, quantity: productQuantity, price: productInDB.price, 
+              thumbnail: productInDB.thumbnail, code: productInDB.code, description: productInDB.description, category: productInDB.category });
+          } else {
+              otherProducts.push(product);
+          }
       }
 
       let ticket;
       if (totalAmount > 0) {
-      ticket = await ticketService.createTicket(totalAmount, userEmail);
+          ticket = await ticketService.createTicket(totalAmount, userEmail);
+          console.log("New Ticket:", ticket);
+
+          // Asociar el ID del nuevo ticket a la lista de tickets del usuario
+          const user = await userService.getUserById(req.user.user._id);
+          user.tickets.push(ticket._id);
+          await user.save();
+          console.log("Updated User:", user);
       } else {
-      ticket = "No operation, no ticket";
+          ticket = "No operation, no ticket";
       }
 
       const cartUpdated = await cartService.updateCart(cartId, otherProducts);
-      console.log(cartUpdated);
 
-      const result = [{productsToBuy}, {otherProducts}, {ticket}];
-      console.log({result});
+      const result = [{ productsToBuy }, { otherProducts }, { ticket }];
 
-      if (ticket != "No operation, no ticket"){
-        const mailer = new Mail
-        const ticketCode = ticket.code
-        mailer.sendTicketMail(userEmail,ticketCode, productsToBuy)
+      if (ticket) {
+          const mailer = new Mail();
+          const ticketCode = ticket.code;
+          await mailer.sendTicketMail(userEmail, ticketCode, productsToBuy);
       }
 
       res.status(200).send(result);
-  } catch (error) { 
-      req.logger.error("Error: " + error)
-      return res.status(500).send("Internal server error. CheckOutProcess has failed.")
+  } catch (error) {
+      req.logger.error("Error: " + error);
+      return res.status(500).send("Internal server error. CheckOutProcess has failed.");
   }
 };
 

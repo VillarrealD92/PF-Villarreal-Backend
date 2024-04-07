@@ -1,4 +1,9 @@
+MUNDOCAN
+
+
 Descripción general del proyecto MundoCan
+
+
 MundoCan es una aplicación web completa diseñada para facilitar la venta de productos y la interacción de los usuarios. Utiliza tecnologías modernas como Node.js y Express.js en el backend, MongoDB como base de datos, y diversas herramientas y librerías para ofrecer una experiencia de usuario fluida y segura.
 
 La aplicación ofrece una amplia gama de funcionalidades, que incluyen:
@@ -23,7 +28,7 @@ Para utilizar MundoCan, sigue estos pasos:
 - Clona el repositorio del proyecto desde GitHub.
 - Instala las dependencias del proyecto utilizando npm o yarn.
 - Configura las variables de entorno necesarias, como la URL de la base de datos MongoDB y las claves de acceso a servicios externos.
-- Inicia el servidor ejecutando el comando npm start o npm run dev.
+- Inicia el servidor ejecutando el comando npm start o npm run dev(es necesario nodemon).
 - Accede a la aplicación a través de un navegador web utilizando la dirección proporcionada por el servidor.
 - Asegúrate de tener una base de datos MongoDB en ejecución antes de iniciar la aplicación y de configurar correctamente las claves de API y las URL  de redireccionamiento para las estrategias de autenticación externa.
 

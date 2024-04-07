@@ -24,10 +24,12 @@ import SwaggerUIexpress from "swagger-ui-express"
 import swaggerJSDoc from "swagger-jsdoc"
 import Mail from "./modules/mail.module.js"
 import morgan from "morgan"
-
+import bodyParse from "body-parser"
 
 
 const app = express()
+app.use(bodyParse.urlencoded({ extended: true }))
+app.use(bodyParse.json())
 app.use(addLogger)
 app.use(cookieParser())
 dotenv.config()
