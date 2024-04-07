@@ -10,7 +10,7 @@ import productsRouter from "./router/products.router.js"
 import sessionRouter from "./router/sessions.router.js"
 import usersRouter from './router/users.router.js';
 import loggerRouter from "./router/logger.router.js"
-import paymentRoutes from "./router/payment.router.js";
+import paymentsRouter from "./router/payments.router.js"
 import mongoose from "mongoose"
 import passport from "passport"
 import initializePassport from "./config/passport.config.js"
@@ -54,14 +54,14 @@ const swaggerOptions = {
     definition: {
         openapi: "3.0.1",
         info: {
-            title: "eCommerce Backend Documentation",
-            description: "Here you can find the backend documentation for eCommerce backend project"
+            title: "MundoCan Documentation",
+            description: "Complete documentation of MundoCan webpage"
         }
     },
     apis: [`${__dirname}/documentation/**/*.yaml`]
   }
 const specs = swaggerJSDoc(swaggerOptions)
-app.use("/apidocs", SwaggerUIexpress.serve, SwaggerUIexpress.setup(specs))
+app.use("/apidocumentation", SwaggerUIexpress.serve, SwaggerUIexpress.setup(specs))
 
 const sessionSecret=config.sessionSecret
 app.use(session({
@@ -138,19 +138,14 @@ app.use(passport.initialize())
 app.use(passport.session()) 
 
 
-app.use("/", viewsRouter)
-app.use("/api/products", productsRouter)
-app.use("/api/carts", cartRouter)
-app.use("/api/session", sessionRouter)
+app.use("/", viewsRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartRouter);
+app.use("/api/session", sessionRouter);
 app.use('/api/users', usersRouter);
-app.use("/loggerTest", loggerRouter)
-app.use("api//payments", paymentRoutes);
+app.use("/loggerTest", loggerRouter);
+app.use("/api/payments", paymentsRouter);
 
 
 
-const mail = new Mail
-app.get("/mail", async(req,res) =>{
-    mail.send(config.mailUser,"TEST",`<h1>TEST</h1>`)
-    return res.send("check your email")
-})
 

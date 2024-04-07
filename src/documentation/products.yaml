@@ -1,129 +1,138 @@
-Products:
-  paths:
-    /api/products/ (All products):
-      get:
-        summary: Obtener todos los productos
-        description: Obtiene todos los productos disponibles.
-        responses:
-          '200':
-            description: Lista de productos obtenida exitosamente
-          '500':
-            description: Error interno del servidor
+paths:
+  "/api/products/ (All products)":
+    get:
+      summary: Obtener todos los productos
+      description: Obtiene todos los productos disponibles.
+      responses:
+        '200':
+          description: Lista de productos obtenida exitosamente
+        '500':
+          description: Error interno del servidor
+      tags:
+        - Products
 
-    /api/products/{id}:
-      get:
-        summary: Obtener un producto por ID
-        description: Obtiene un producto específico por su ID.
-        parameters:
-          - in: path
-            name: id
-            required: true
-            description: ID del producto
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Producto obtenido exitosamente
-          '500':
-            description: Error interno del servidor
-
-    /api/products/ (New product):
-      post:
-        summary: Crear un nuevo producto
-        description: Crea un nuevo producto.
-        requestBody:
+  "/api/products/{id}":
+    get:
+      summary: Obtener un producto por ID
+      description: Obtiene un producto específico por su ID.
+      parameters:
+        - in: path
+          name: id
           required: true
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  title:
-                    type: string
-                  category:
-                    type: string
-                  description:
-                    type: string
-                  price:
-                    type: number
-                  thumbnail:
-                    type: object
-                  code:
-                    type: string
-                  stock:
-                    type: number
-                required:
-                  - title
-                  - category
-                  - description
-                  - price
-                  - code
-                  - stock
-        responses:
-          '200':
-            description: Producto creado exitosamente
-          '400':
-            description: Solicitud incorrecta. Verifique los campos solicitados
-          '500':
-            description: Error interno del servidor
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto obtenido exitosamente
+        '500':
+          description: Error interno del servidor
+      tags:
+        - Products
 
-    /api/products/{pid}:
-      put:
-        summary: Actualizar un producto por ID
-        description: Actualiza un producto específico por su ID.
-        parameters:
-          - in: path
-            name: pid
-            required: true
-            description: ID del producto
+  "/api/products/ (New product)":
+    post:
+      summary: Crear un nuevo producto
+      description: Crea un nuevo producto.
+      requestBody:
+        required: true
+        content:
+          application/json:
             schema:
-              type: string
-        requestBody:
+              type: object
+              properties:
+                title:
+                  type: string
+                category:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                thumbnail:
+                  type: object
+                code:
+                  type: string
+                stock:
+                  type: number
+              required:
+                - title
+                - category
+                - description
+                - price
+                - code
+                - stock
+      responses:
+        '200':
+          description: Producto creado exitosamente
+        '400':
+          description: Solicitud incorrecta. Verifique los campos solicitados
+        '500':
+          description: Error interno del servidor
+      tags:
+        - Products
+
+  "/api/products/{pid}":
+    put:
+      summary: Actualizar un producto por ID
+      description: Actualiza un producto específico por su ID.
+      parameters:
+        - in: path
+          name: pid
           required: true
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  title:
-                    type: string
-                  category:
-                    type: string
-                  description:
-                    type: string
-                  price:
-                    type: number
-                  thumbnail:
-                    type: object
-                  code:
-                    type: string
-                  stock:
-                    type: number
-                required:
-                  - title
-                  - category
-                  - description
-                  - price
-                  - code
-                  - stock
-        responses:
-          '200':
-            description: Producto actualizado exitosamente
-          '500':
-            description: Error interno del servidor
-
-      delete:
-        summary: Eliminar un producto por ID
-        description: Elimina un producto específico por su ID.
-        parameters:
-          - in: path
-            name: pid
-            required: true
-            description: ID del producto
+          description: ID del producto
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
             schema:
-              type: string
-        responses:
-          '200':
-            description: Producto eliminado exitosamente
-          '500':
-            description: Error interno del servidor
+              type: object
+              properties:
+                title:
+                  type: string
+                category:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                thumbnail:
+                  type: object
+                code:
+                  type: string
+                stock:
+                  type: number
+              required:
+                - title
+                - category
+                - description
+                - price
+                - code
+                - stock
+      responses:
+        '200':
+          description: Producto actualizado exitosamente
+        '500':
+          description: Error interno del servidor
+      tags:
+        - Products
+
+    delete:
+      summary: Eliminar un producto por ID
+      description: Elimina un producto específico por su ID.
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado exitosamente
+        '500':
+          description: Error interno del servidor
+      tags:
+        - Products

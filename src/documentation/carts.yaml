@@ -1,99 +1,102 @@
-info:
-  title: MundoCan Backend Documentation
-  description: Documentación del backend para el proyecto de eCommerce
-Carts:
-  paths:
-    /api/carts/:
-      post:
-        summary: Crea un nuevo carrito
-        description: Crea un nuevo carrito vacío.
-        responses:
-          '201':
-            description: Carrito creado exitosamente
-          '500':
-            description: Error interno del servidor
+paths:
+  /api/carts/:
+    post:
+      summary: Crea un nuevo carrito
+      description: Crea un nuevo carrito vacío.
+      responses:
+        '201':
+          description: Carrito creado exitosamente
+        '500':
+          description: Error interno del servidor
+      tags:
+        - Carts
 
-    /api/carts/{cid}/product/{pid}:
-      post:
-        summary: Agrega un producto al carrito
-        description: Agrega un producto al carrito especificado.
-        parameters:
-          - in: path
-            name: cid
-            required: true
-            description: ID del carrito
-            schema:
-              type: string
-          - in: path
-            name: pid
-            required: true
-            description: ID del producto
-            schema:
-              type: string
-        security:
-          - BearerAuth: []
-        responses:
-          '200':
-            description: Producto agregado al carrito
-          '500':
-            description: Error interno del servidor
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agrega un producto al carrito
+      description: Agrega un producto al carrito especificado.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto agregado al carrito
+        '500':
+          description: Error interno del servidor
+      tags:
+        - Carts
 
-    /api/carts/{cid}/products/{pid}:
-      delete:
-        summary: Elimina un producto del carrito
-        description: Elimina un producto del carrito especificado.
-        parameters:
-          - in: path
-            name: cid
-            required: true
-            description: ID del carrito
-            schema:
-              type: string
-          - in: path
-            name: pid
-            required: true
-            description: ID del producto
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Producto eliminado del carrito
-          '500':
-            description: Error interno del servidor
+  /api/carts/{cid}/products/{pid}:
+    delete:
+      summary: Elimina un producto del carrito
+      description: Elimina un producto del carrito especificado.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado del carrito
+        '500':
+          description: Error interno del servidor
+      tags:
+        - Carts
 
-    /api/carts/{cid}:
-      delete:
-        summary: Vaciar el carrito
-        description: Elimina todos los productos del carrito especificado.
-        parameters:
-          - in: path
-            name: cid
-            required: true
-            description: ID del carrito
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Carrito vaciado exitosamente
-          '500':
-            description: Error interno del servidor
+  /api/carts/{cid}:
+    delete:
+      summary: Vaciar el carrito
+      description: Elimina todos los productos del carrito especificado.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Carrito vaciado exitosamente
+        '500':
+          description: Error interno del servidor
+      tags:
+        - Carts
 
-    /api/carts/{cid}/purchase:
-      post:
-        summary: Proceso de compra
-        description: Procesa la compra del carrito especificado.
-        parameters:
-          - in: path
-            name: cid
-            required: true
-            description: ID del carrito
-            schema:
-              type: string
-        security:
-          - BearerAuth: []
-        responses:
-          '200':
-            description: Compra procesada exitosamente
-          '500':
-            description: Error interno del servidor
-            
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Proceso de compra
+      description: Procesa la compra del carrito especificado.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Compra procesada exitosamente
+        '500':
+          description: Error interno del servidor
+      tags:
+        - Carts
