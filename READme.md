@@ -14,15 +14,13 @@ Gestión de productos: Permite a los administradores agregar, actualizar y elimi
 
 Carrito de compras: MundoCan ofrece un carrito de compras donde los usuarios pueden agregar productos, ajustar cantidades y proceder al proceso de pago de manera segura.
 
-Procesamiento de pagos: Integra servicios de pago externos, como MercadoPago, para procesar transacciones de manera segura y eficiente.
-
 Registro de eventos y seguimiento: Proporciona un sistema de registro de eventos para rastrear las actividades de los usuarios y el rendimiento de la aplicación.
 
 Interacción en tiempo real: Utiliza WebSockets y Socket.IO para permitir la comunicación en tiempo real entre los usuarios y la aplicación.
 
 Gestión de sesiones y permisos: MundoCan gestiona las sesiones de usuario y los permisos de acceso para garantizar la seguridad y la privacidad de la información.
 
-Instrucciones de Uso
+Instrucciones de Uso:
 Para utilizar MundoCan, sigue estos pasos:
 
 - Clona el repositorio del proyecto desde GitHub.
