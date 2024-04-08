@@ -32,7 +32,8 @@ Para utilizar MundoCan, sigue estos pasos:
 
 Esta descripción general proporciona una visión amplia de MundoCan y cómo configurarlo y ejecutarlo. Para obtener detalles más específicos sobre las funcionalidades, la arquitectura del sistema y cómo interactuar con la aplicación, consulta la documentación proporcionada en el directorio /apidocumentation o revisa el código fuente del proyecto.
 
-
+railway deployment:
+pf-villarreal-backend-production.up.railway.app
 
 
 
