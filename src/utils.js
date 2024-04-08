@@ -34,7 +34,6 @@ export const verifyToken = (token) =>{
         const tokenData = jwt.verify(token, PRIVATE_KEY)
         return tokenData
     } catch (error) {
-        console.log(error);
         return null
     }
 

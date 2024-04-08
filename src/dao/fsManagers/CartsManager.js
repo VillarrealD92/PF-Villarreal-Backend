@@ -15,7 +15,6 @@ class CartManager{
                     products: []
                 }
                 this.carts.push(cart)
-                console.log(this.carts);
                 const carts = JSON.stringify(this.carts)
                 await fs.promises.writeFile(this.path, carts)
                 return "First cart has been created"
@@ -29,7 +28,7 @@ class CartManager{
                 products: []
             }
             this.carts.push(cart)
-            console.log(this.carts);
+            
             const carts = JSON.stringify(this.carts)
             await fs.promises.writeFile(this.path, carts)
             return "New cart has been added"
@@ -60,12 +59,11 @@ class CartManager{
             
             if (cart){
                 const productsInCart = cart.products
-                console.log(productsInCart);
+            
                 return productsInCart
             }else{ return "There is no cart created with that ID number"}
 
         } catch (error) {
-            console.log(error);
             return "Couldnt bring products from cart"
         }
     }
@@ -107,7 +105,6 @@ class CartManager{
             }
 
         } catch (error) {
-            console.log(error);
             return "Failure"
         }
     }

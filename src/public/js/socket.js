@@ -61,8 +61,6 @@ form.addEventListener("submit", (e) => {
         timer: 3000
     });
 
-    console.log("product has been sent");
-
     document.querySelector("#title").value = "";
     document.querySelector("#category").value = "";
     document.querySelector("#description").value = "";

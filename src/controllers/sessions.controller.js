@@ -9,7 +9,6 @@ export const login = async(req, res) => {
     try {
         if (!req.user) return res.status(401).send("Invalid Credentials")
         req.session.user = req.user
-        console.log(req.user);
         const { token, _id } = req.user
         const changes = {last_connection: new Date()}
         await userService.updateUser(_id, changes)
@@ -114,7 +113,6 @@ export const resetPassword = async (req, res) => {
         const changes = {password: hashedPassword}
 
         const updatePassword = await userService.updateUser(userMail, changes)
-        console.log(updatePassword);
 
         return res.json({status: "success", message:"Your password has been updated"})
 

@@ -50,7 +50,6 @@ document.getElementById("button-addon1").onclick = () =>{
 
 document.getElementById("sort").onchange = () =>{
     const order = document.getElementById("sort").value
-    console.log(order)
     const currentLimit = document.getElementById("currentLimit").value
     const currentPage = document.getElementById("currentPage").value 
     const currentQuery = document.getElementById("currentQuery").value
@@ -63,15 +62,13 @@ document.querySelectorAll(".addToCartBtn").forEach(button => {
     button.onclick = () => {
         const productId = button.parentElement.querySelector(".productId").value;
         const stock = button.parentElement.querySelector(".stock").value
-        console.log(productId);
-        console.log(stock);
         if (stock > 0) {
             fetch(`/api/carts/cartId/product/${productId}`, { method: "post" })
                 .then(response => {
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
+                   
                     Swal.fire({
                         icon: 'success',
                         title: 'Product added to cart',
@@ -80,7 +77,7 @@ document.querySelectorAll(".addToCartBtn").forEach(button => {
                     });
                 })
                 .catch(error => {
-                    console.log("Error: " + error);
+                    
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',

@@ -46,8 +46,7 @@ export const productsView = async (req, res)=> {
         result.status = "success"
         result.user = req.user.user
         delete result.docs
-
-        console.log(result);  
+  
         req.logger.info(JSON.stringify(result))
         return res.render("products", result)
     } catch (error) {
@@ -98,11 +97,8 @@ export const login = (req,res) => {
 export const profile = async (req, res) => {
     try {
         const userEmail = req.user.user.email;
-        console.log("User Email:", userEmail);
-
         const ticketData = await ticketService.getTicketsByPurchaser(userEmail);
-        console.log("Ticket Data:", ticketData);
-
+        
         return res.render("profile", { user: req.user.user, tickets: ticketData });
 
     } catch (error) {
@@ -124,10 +120,8 @@ export const restablishPassword = async (req, res) => {
 export const resetPasswordForm = (req, res) =>{
     try {
         const token = req.params.token
-
         const validToken = verifyToken(token)
-        console.log(validToken);
-
+    
         validToken? res.render("resetPassword",{validToken, token}) : (
             res.send("Your link has expired or its invalid, you will be redirected to login site"),
             setTimeout(() => {

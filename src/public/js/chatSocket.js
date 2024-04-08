@@ -1,5 +1,3 @@
-console.log("Ready to chat");
-
 const socket = io();
 const user = prompt("User Name");
 
@@ -24,7 +22,6 @@ input.addEventListener("keyup", (e) => {
 });
 
 socket.on("logs", (data) => {
-    console.log(data);
     let cont = "";
     data.reverse().forEach((message) => {
         cont += `<p><strong><i>${message.user}</i></strong>: ${message.message}</p>`;

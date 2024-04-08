@@ -92,20 +92,17 @@ socketServer.on("connection", async socket => {
         const products = await productService.getAllProducts()
         socket.emit("products", products)
     } catch (error) {
-        console.log(error);
         res.send(error)
     }
     
     socket.on("newProduct", async (data) =>{
         try {
-            console.log(data);
+            
             const {title, category, description, price, code, stock, owner} = data
             const newProduct = await productService.createProduct({title, category, description, price, code, stock, owner}) 
-            console.log({newProduct});
             const products = await productService.getAllProducts()
             socket.emit("products", products)
         } catch (error) {
-            console.log(error);
             res.send(error)
         }
     })
@@ -123,12 +120,10 @@ socketServer.on("connection", async socket => {
     
     socket.on("message", async ({user, message}) => {
         try {
-            console.log({user, message});
             await chatService.createMessage(user, message)
             const logs = await chatService.getMessages()
             socketServer.emit("logs", logs)
         } catch (error) {
-            console.log("Server couldnt redirect chat log to users");
             res.send(error)
         }
     })

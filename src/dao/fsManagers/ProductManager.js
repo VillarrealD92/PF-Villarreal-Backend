@@ -31,7 +31,7 @@ class ProductManager {
             const productById = db.find(p => p.id === id)
             
             if (productById) {
-                console.log(productById);
+                
                 return productById
             } else { return console.log("Not Found") }
 

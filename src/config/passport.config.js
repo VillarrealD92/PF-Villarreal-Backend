@@ -21,12 +21,12 @@ const initializePassport = () => {
         try {
             const user = await userService.getUserByEmail(username)
             if (!user) {
-                console.log("No users registered with that email address");
+                
                 return done(null, false)
             }
 
             if(!validatePassword(password, user)){
-                console.log("Invalid Credentials");
+                
                 return done(null, false)
             }
 
@@ -45,7 +45,7 @@ const initializePassport = () => {
         jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([req => req?.cookies?.jwtCookie ?? null]),
         secretOrKey: config.jwtSign
       }, (payload, done) => {
-        console.log({jwtPayload: payload});
+        
         done(null, payload)
       })
     )
@@ -56,12 +56,11 @@ const initializePassport = () => {
         callbackURL: githubClientCallback,
         scope: ["user:email"]
     }, async (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
+        
         try {
             let user = await userService.getUserByEmail(profile._json.email)
-            console.log(user);
+            
             if (user) {
-                console.log("User is logged in")
                 const token = generateToken(user)
                 user.token = token
                 return done(null, user);
@@ -94,12 +93,11 @@ const initializePassport = () => {
         callbackURL: googleClientCallback,
         scope: ['email', 'profile']
     }, async (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
+        
         try {
             let user = await userService.getUserByEmail(profile._json.email)
-            console.log(user);
+            
             if (user) {
-                console.log("User is logged in")
                 const token = generateToken(user)
                 user.token = token
                 return done(null, user);
@@ -134,12 +132,11 @@ const initializePassport = () => {
         try {
             const user = await userService.getUserByEmail(username)
             if (user) {
-                console.log("User is already registered");
+               
                 return done(null, false)
             }
 
             const newCart = await cartService.createNewCart()
-            console.log(newCart)
             const newUser = {
                 first_name,
                 last_name,

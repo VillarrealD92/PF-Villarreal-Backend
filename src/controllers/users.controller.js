@@ -37,7 +37,7 @@ export const getUserByEmail = async (req, res) => {
     try {
         const { email } = req.query
         const user = await userService.getUserByEmail(email)
-        console.log(user);
+
         return res.status(200).json({ status: "success", payload: user })
     } catch (error) {
         return res.status(500).json({ status: "fail", message: "Internal server error while getting user by email." + error })
@@ -74,17 +74,10 @@ export const uploadUserDocuments = async (req, res) => {
         const documents = req.files;
         const email = await userService.getUserById(userId).then((user) => user.email);
         
-        console.log(email);
-       
         if (!documents) {
             return res.status(400).send("No se adjuntaron archivos.");
         }
 
-        console.log("User ID:", userId);
-        console.log("Archivos adjuntos:", documents);
-        console.log("Email:", email);
-
-        
         const user = await userService.uploadUserDocuments(userId, documents);
 
         const mailer = new Mail
@@ -111,8 +104,6 @@ export const getUsersWithDocuments = async (req, res) => {
 export const changeUserRole = async (req, res) => {
     try {
         const { email, role } = req.query
-        console.log(email);
-        console.log(role);
         const user = await userService.getUserByEmail(email);
         if (!user) {
             return res.status(404).json({ status: "error", message: "User not found" });
@@ -122,25 +113,22 @@ export const changeUserRole = async (req, res) => {
 
         const roleUpdated = await userService.updateUser(user._id, changes);
 
-        console.log(roleUpdated);
-
         const mailer = new Mail
         mailer.sendRoleChangeConfirmation(email, role)
 
         return res.status(200).json({ status: "success", payload: roleUpdated })
     } catch (error) {
-        console.log(error);
+        return res.status(500).json({ status: "error", message: "Internal server error" });
     }
 }
 
 export const deleteUser = async (req, res) => {
     try {
         const { userId } = req.params
-        console.log(userId);
         const deletedUser = await userService.deleteUser(userId)
-        console.log(deletedUser);
+     
         return res.status(200).json({ status: "success", payload: deletedUser })
     } catch (error) {
-        console.log(error);
+        return res.status(500).json({ status: "error", message: "Internal server error" });
     }
 }

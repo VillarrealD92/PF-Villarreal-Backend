@@ -72,7 +72,6 @@ if (checkout) {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 showAlert("Purchase successful! Redirecting to profile...", "success");
                 setTimeout(() => {
                     document.location.href = "/profile";
